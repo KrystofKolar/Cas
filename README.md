@@ -1,4 +1,4 @@
 # Cas
-a timeline tool aka Scrolling background
+a scrolling background texture/timeline project
 
 christoph.wagner@live.com(Krystof Kolar)
