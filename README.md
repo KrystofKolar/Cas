@@ -1,4 +1,4 @@
 # Cas
-Parts of a scrolling background texture/timeline project
+Parts of a timeline project and others
 
 christoph.wagner@live.com
