@@ -40,7 +40,7 @@ namespace CwaEffects
 
         public CwaEffectInput Input;
 
-        protected CwaEffectBase _EffectBase;
+        protected CwaEffectImpl _EffectBase;
 
         public eEffect Request
         {
@@ -59,12 +59,16 @@ namespace CwaEffects
                     switch (value)
                     {
                         case eEffect.Pixelate:
-                            _EffectBase = new CwaEffectPixelate();
+                            _EffectBase = new CwaEffectImplPixelate();
+                            break;
+
+                        case eEffect.Bloom:
+                            _EffectBase = new CwaEffectImplBloom();
                             break;
 
                         case eEffect.None:
                         default:
-                            _EffectBase = new CwaEffectNone();
+                            _EffectBase = new CwaEffectImplNone();
                             break;
                     }
 
