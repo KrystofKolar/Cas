@@ -66,6 +66,10 @@ namespace CwaEffects
                             _EffectBase = new CwaEffectImplBloom();
                             break;
 
+                        case eEffect.Blur:
+                            _EffectBase = new CwaEffectImplBlur();
+                            break;
+
                         case eEffect.None:
                         default:
                             _EffectBase = new CwaEffectImplNone();
