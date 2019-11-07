@@ -7,9 +7,9 @@ using System.Text;
 
 namespace CwaEffects
 {
-    public class CwaEffectImplNone : CwaEffectImpl
+    public class CwaEffectImplOriginal : CwaEffectImpl
     {
-        public override eEffect Effect { get { return eEffect.None; } }
+        public override eEffect Effect { get { return eEffect.Org; } }
 
         protected override void Dispose(bool dispose)
         {
@@ -32,7 +32,6 @@ namespace CwaEffects
 
         public override void Calc(Texture2D tex)
         {
-            // scale down
             Input.gd.SetRenderTarget(Result);
             Input.gd.Clear(Color.Transparent);
             Input.sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);

@@ -1,8 +1,7 @@
 ﻿using System;
 
-namespace CwaEffectTest.MonoGame.DX
+namespace CwaEffectsTest.MonoGame.GL
 {
-#if WINDOWS || LINUX
     /// <summary>
     /// The main class.
     /// </summary>
@@ -18,5 +17,4 @@ namespace CwaEffectTest.MonoGame.DX
                 game.Run();
         }
     }
-#endif
 }

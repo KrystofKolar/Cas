@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CwaEffectsTest.MonoGame.GL", "..\CwaEffectsTest.MonoGame.GL\CwaEffectsTest.MonoGame.GL.csproj", "{1F640523-F62C-4C28-9307-8FB7E58BF517}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CwaEffects", "..\CwaEffects\CwaEffects.csproj", "{D214F9CF-03CD-4C54-B211-2F9BF73C77DC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1F640523-F62C-4C28-9307-8FB7E58BF517}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F640523-F62C-4C28-9307-8FB7E58BF517}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F640523-F62C-4C28-9307-8FB7E58BF517}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F640523-F62C-4C28-9307-8FB7E58BF517}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D214F9CF-03CD-4C54-B211-2F9BF73C77DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D214F9CF-03CD-4C54-B211-2F9BF73C77DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D214F9CF-03CD-4C54-B211-2F9BF73C77DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D214F9CF-03CD-4C54-B211-2F9BF73C77DC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1C7CC1AB-20CD-48F2-A153-72D2EA1B701D}
+	EndGlobalSection
+EndGlobal

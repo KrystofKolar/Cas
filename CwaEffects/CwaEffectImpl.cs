@@ -9,7 +9,6 @@ using System.Text;
 
 namespace CwaEffects
 {
-
     public abstract class CwaEffectImpl : IDisposable
     {
         public abstract eEffect Effect { get; }

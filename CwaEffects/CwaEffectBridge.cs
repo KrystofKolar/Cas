@@ -8,12 +8,12 @@ namespace CwaEffects
 {
     public enum eEffect
     {
-        Undef,
-
-        None, // original
+        Org,
         Blur,
         Bloom,
-        Pixelate
+        Pixelate,
+
+        Last,
     }
 
     public class CwaEffectBridge : IDisposable
@@ -46,52 +46,50 @@ namespace CwaEffects
         {
             get
             {
-                if (_EffectBase != null)
                     return _EffectBase.Effect;
-                else
-                    return eEffect.Undef;
             }
 
             set
             {
-                if (value != Request)
+                if (value == Request)
+                    return;
+
+                switch (value)
                 {
-                    switch (value)
-                    {
-                        case eEffect.Pixelate:
-                            _EffectBase = new CwaEffectImplPixelate();
-                            break;
+                    case eEffect.Pixelate:
+                        _EffectBase = new CwaEffectImplPixelate();
+                        break;
 
-                        case eEffect.Bloom:
-                            _EffectBase = new CwaEffectImplBloom();
-                            break;
+                    case eEffect.Bloom:
+                        _EffectBase = new CwaEffectImplBloom();
+                        break;
 
-                        case eEffect.Blur:
-                            _EffectBase = new CwaEffectImplBlur();
-                            break;
+                    case eEffect.Blur:
+                        _EffectBase = new CwaEffectImplBlur();
+                        break;
 
-                        case eEffect.None:
-                        default:
-                            _EffectBase = new CwaEffectImplNone();
-                            break;
-                    }
-
-                    _EffectBase.Input = Input;
+                    case eEffect.Org:
+                    default:
+                        _EffectBase = new CwaEffectImplOriginal();
+                        break;
                 }
+
+                _EffectBase.Input = Input;
             }
         }
 
         public CwaEffectBridge()
         {
             Input = new CwaEffectInput();
+            _EffectBase = new CwaEffectImplOriginal();
         }
 
-        public void Prepare()
+        public virtual void Prepare()
         {
             _EffectBase.Prepare();
         }
 
-        public void Calc(Texture2D tex)
+        public virtual void Calc(Texture2D tex)
         {
             _EffectBase.Calc(tex);
         }

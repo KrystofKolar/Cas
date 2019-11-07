@@ -51,7 +51,7 @@ namespace CwaEffects
             Input.gd.Clear(Color.Transparent);
             Input.sb.Begin(SpriteSortMode.Deferred,
                            BlendState.AlphaBlend,
-                           SamplerState.PointClamp, // magic
+                           SamplerState.PointClamp,
                            null,
                            null);
             Input.sb.Draw(_rtSmall, new Rectangle(0, 0, Result.Width, Result.Height), Color.White);
