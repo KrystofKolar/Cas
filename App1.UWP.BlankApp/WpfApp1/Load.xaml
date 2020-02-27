@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:test="clr-namespace:CwaConverter"
+        xmlns:testGfx="clr-namespace:GfxItem"
         mc:Ignorable="d"
         Title="Gfx" WindowStartupLocation="CenterScreen" ShowInTaskbar="True" Width="800" Height="480" 
         x:Name="WindowLoad" ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
@@ -11,6 +12,7 @@
     <!--xmlns:local="clr-namespace:WpfApp1"-->
     <Window.Resources>
         <test:ConverterWindowSize x:Key="CwaConvert"/>
+        <testGfx:ItemViewable x:Key="CwaItemViewable" Id="123" Name="Item123" Visible="true"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
