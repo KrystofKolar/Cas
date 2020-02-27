@@ -17,25 +17,23 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-
-        <Image x:Name="image" Grid.RowSpan="2" Source="Images/sketch_dark.png" 
+        <Image x:Name="image" Grid.RowSpan="1" Source="Images/sketch_dark.png" 
                Width="{Binding ElementName=WindowLoad, 
                                Path=Width,
                                Converter={StaticResource CwaConvert},
-                               ConverterParameter='1.05'
-               }"
+                               ConverterParameter='1.05'}"
                Height="{Binding ElementName=WindowLoad, Path=ActualHeight}"
-               />
+               Opacity="0" />
 
-        <!--<Grid>
+        <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
             <Image Width="{Binding ElementName=image, Path=ActualWidth}"
-                   Height="{Binding ActualHeight, ElementName=image}"
-                   HorizontalAlignment="Center" VerticalAlignment="Top">-->
-                <!--<Image.Source>
-                    <FormatConvertedBitmap Source="{Binding Source, ElementName=image}" DestinationFormat="Gray8"/>
+                   Height="{Binding ElementName=image, Path=ActualHeight}"
+                   HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Image.Source>
+                    <FormatConvertedBitmap Source="{Binding ElementName=image, Path=Source}" DestinationFormat="Gray8"/>
                 </Image.Source>
             </Image>
-        </Grid>-->
+        </Grid>
     </Grid>
 
 </Window>
