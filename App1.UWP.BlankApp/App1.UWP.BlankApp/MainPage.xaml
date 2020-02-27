@@ -1,0 +1,20 @@
+﻿<Page
+    x:Class="App1.UWP.BlankApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:App1.UWP.BlankApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DesignWidth="800" d:DesignHeight="480">
+
+    <Grid Background="#FF8805F5">
+        <Button x:Name="btnButton1"  Background="#FFE81414" Click="btnButton1_Click" Visibility="Visible" VerticalAlignment="Center" Width="98" Height="32">
+            <!--<Rectangle Fill="Red" /> -->
+            <ListBox >
+                <ListBoxItem Content="First"/>
+                <ListBoxItem Content="Next"/>
+            </ListBox>
+        </Button>
+    </Grid>
+</Page>
