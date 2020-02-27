@@ -6,7 +6,7 @@
         xmlns:test="clr-namespace:CwaConverter"
         xmlns:testGfx="clr-namespace:GfxItem"
         mc:Ignorable="d"
-        Title="Gfx" WindowStartupLocation="CenterScreen" ShowInTaskbar="True" Width="800" Height="480" 
+        Title="test" WindowStartupLocation="CenterScreen" ShowInTaskbar="True" Width="800" Height="480" 
         x:Name="WindowLoad" ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
         >
     <!--xmlns:local="clr-namespace:WpfApp1"-->
@@ -14,10 +14,11 @@
         <test:ConverterWindowSize x:Key="CwaConvert"/>
         <testGfx:ItemViewable x:Key="CwaItemViewable" Id="123" Name="Item123" Visible="true"/>
     </Window.Resources>
-    <Grid>
+    <Grid x:Name="MainGrid" SizeChanged="MainGrid_SizeChanged">
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition x:Name="MyRowdef" />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Image x:Name="image" Grid.RowSpan="1" Source="Images/sketch_dark.png" 
                Width="{Binding ElementName=WindowLoad, 
@@ -27,7 +28,7 @@
                Height="{Binding ElementName=WindowLoad, Path=ActualHeight}"
                Opacity="0" />
 
-        <Grid Grid.Row="0" Grid.Column="0" Grid.RowSpan="2">
+        <Grid Grid.Row="0" Grid.RowSpan="3">
             <Image Width="{Binding ElementName=image, Path=ActualWidth}"
                    Height="{Binding ElementName=image, Path=ActualHeight}"
                    HorizontalAlignment="Center" VerticalAlignment="Top">
@@ -36,6 +37,11 @@
                 </Image.Source>
             </Image>
         </Grid>
+        <!-- Text="{Binding Source={StaticResource CwaItemViewable}, Path=Name, Mode=OneWay}"
+        Text="{Binding ElementName=MyRowdef, Path=ActualHeight, Mode=OneWay}"
+        FontSize="{Binding ElementName=MyRowdef, Path=ActualHeight}"
+        -->
+        <TextBox x:Name="tbName" Grid.Row="1" Background="Transparent" BorderBrush="Transparent" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top"  />
     </Grid>
 
 </Window>

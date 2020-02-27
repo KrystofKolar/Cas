@@ -21,5 +21,12 @@ namespace WpfApp1
         {
             InitializeComponent();
         }
+
+        private void MainGrid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double i = MyRowdef.ActualHeight;
+            tbName.FontSize = i * 0.75F;
+            tbName.Text = i.ToString("#.##");
+        }
     }
 }
