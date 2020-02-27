@@ -1,0 +1,23 @@
+﻿    <!--<Window.Background>
+        <ImageBrush ImageSource="Images/sketch_dark.png" Opacity="0.5"/>
+    </Window.Background>-->
+    <!--<Grid>
+        <Image Source="Images/sketch_dark.png" Stretch="UniformToFill">
+            <Image.Effect>
+                <BlurEffect Radius="10"/>
+            </Image.Effect>
+        </Image>-->
+        <!--<Image Grid.ColumnSpan="2" Grid.Column="1" HorizontalAlignment="Left" Height="100" Margin="60,50,0,0" Grid.RowSpan="2" Grid.Row="1" VerticalAlignment="Top" Width="100" Source="/Images/snap.png" Stretch="UniformToFill" IsEnabled="True"/>-->
+        <!--<Image Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Source="/Images/snap.png" Stretch="UniformToFill" StretchDirection="Both">
+            --><!--<Image.Effect>
+                <BlurEffect>
+                    <BlurEffect.Radius>20</BlurEffect.Radius>
+                </BlurEffect>
+            </Image.Effect>--><!--
+        </Image>-->
+
+        <!--<Image Source="Image/snap.png">
+            
+        </Image>-->
+        <!--<Button Content="Before Animation" HorizontalAlignment="Left" Margin="214,217,0,0" VerticalAlignment="Top" Grid.Column="2"/>-->
+    <!--/Grid>-->

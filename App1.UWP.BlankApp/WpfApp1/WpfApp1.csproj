@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="sketch_dark.png" />
+    <Resource Include="Images\sketch_dark.png" />
   </ItemGroup>
 
 </Project>

@@ -3,17 +3,39 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:test="clr-namespace:CwaConverter"
         mc:Ignorable="d"
-        Title="Load" Height="450" Width="800" HorizontalContentAlignment="Center">
-    <Window.Background>
-        <ImageBrush ImageSource="sketch_dark.png" Stretch="UniformToFill"/>
-    </Window.Background>
+        Title="Gfx" WindowStartupLocation="CenterScreen" ShowInTaskbar="True" Width="800" Height="480" 
+        x:Name="WindowLoad" ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
+        >
+    <!--xmlns:local="clr-namespace:WpfApp1"-->
+    <Window.Resources>
+        <test:ConverterWindowSize x:Key="CwaConvert"/>
+    </Window.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="71*"/>
-            <ColumnDefinition Width="729*"/>
-        </Grid.ColumnDefinitions>
-        <Button Content="Before Animation" HorizontalAlignment="Left" Margin="315,217,0,0" VerticalAlignment="Top" Grid.Column="1"/>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Image x:Name="image" Grid.RowSpan="2" Source="Images/sketch_dark.png" 
+               Width="{Binding ElementName=WindowLoad, 
+                               Path=Width,
+                               Converter={StaticResource CwaConvert},
+                               ConverterParameter='1.05'
+               }"
+               Height="{Binding ElementName=WindowLoad, Path=ActualHeight}"
+               />
+
+        <!--<Grid>
+            <Image Width="{Binding ElementName=image, Path=ActualWidth}"
+                   Height="{Binding ActualHeight, ElementName=image}"
+                   HorizontalAlignment="Center" VerticalAlignment="Top">-->
+                <!--<Image.Source>
+                    <FormatConvertedBitmap Source="{Binding Source, ElementName=image}" DestinationFormat="Gray8"/>
+                </Image.Source>
+            </Image>
+        </Grid>-->
     </Grid>
+
 </Window>
