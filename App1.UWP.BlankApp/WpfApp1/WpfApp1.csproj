@@ -8,10 +8,11 @@
 
   <ItemGroup>
     <None Remove="kang.jpg" />
+    <None Remove="sketch_dark.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="kang.jpg" />
+    <Resource Include="sketch_dark.png" />
   </ItemGroup>
 
 </Project>

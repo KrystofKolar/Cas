@@ -5,11 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="Load" Height="450" Width="800" MinWidth="400" MinHeight="300" MaxWidth="800" MaxHeight="500" HorizontalContentAlignment="Center">
+        Title="Load" Height="450" Width="800" HorizontalContentAlignment="Center">
     <Window.Background>
-        <ImageBrush ImageSource="kang.jpg"/>
+        <ImageBrush ImageSource="sketch_dark.png" Stretch="UniformToFill"/>
     </Window.Background>
     <Grid>
-        <Button Content="Before Animation" HorizontalAlignment="Left" Margin="386,217,0,0" VerticalAlignment="Top"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="71*"/>
+            <ColumnDefinition Width="729*"/>
+        </Grid.ColumnDefinitions>
+        <Button Content="Before Animation" HorizontalAlignment="Left" Margin="315,217,0,0" VerticalAlignment="Top" Grid.Column="1"/>
     </Grid>
 </Window>
