@@ -8,12 +8,14 @@
 
   <ItemGroup>
     <None Remove="Images\Back.png" />
+    <None Remove="Images\ColorMix.png" />
     <None Remove="kang.jpg" />
     <None Remove="sketch_dark.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Images\Back.png" />
+    <Resource Include="Images\ColorMix.png" />
     <Resource Include="Images\sketch_dark.png" />
   </ItemGroup>
 

@@ -5,37 +5,26 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d" FontSize="38"
-         Height="450" Width="800" Background="#FF741C1C" WindowStyle="SingleBorderWindow">
+         Height="450" Width="800" Background="#FF1C4C74" WindowStyle="SingleBorderWindow">
     <Grid x:Name="myGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="96" />
+            <ColumnDefinition Width="96" />
+            <ColumnDefinition Width="96" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="20" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="96" />
+            <RowDefinition Height="96" />
             <RowDefinition Height="*" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="1" Grid.Row="1" FontStyle="Oblique" FontWeight="Bold" Margin="10,10,10,10" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">
-            <TextBlock.Foreground>
-                <SolidColorBrush Color="#FFFFE90E" Opacity="1"/>
-            </TextBlock.Foreground>
-            <TextBlock.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="1">
-                    <GradientStop Color="Red"/>
-                    <GradientStop Color="DarkOrange" Offset="1"/>
-                </LinearGradientBrush>
-            </TextBlock.Background>
-            Hello World of WPF
-        </TextBlock>
-        <TextBox  x:Name="tbText" Grid.Column="1" Grid.Row ="2" Grid.ColumnSpan="3" Text="Sender" Background="#FF0765EC"/>
-        <Button x:Name="subButton" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Content="{Binding ElementName=tbText, Path=Text, Mode=OneWay}"  Click="SubmitButton_Click" Background="#FF5B52B9">
+        <TextBox  Grid.Row ="1" Grid.Column="1"  Grid.ColumnSpan="2" x:Name="tbText" Text="Sender" Background="#FF0765EC" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Label Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Content="{Binding ElementName=tbText, Path=Text}" Margin="20, 10" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
+        <Button Grid.Row="3" Grid.Column="4" x:Name="subButton" Click="SubmitButton_Click" Background="#FF5B52B9" Content="Window">
         </Button>
     </Grid>
 
