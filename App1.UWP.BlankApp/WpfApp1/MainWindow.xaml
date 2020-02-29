@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d" FontSize="38"
-         Height="450" Width="800" Background="#FF1C4C74" WindowStyle="SingleBorderWindow">
+         Height="450" Width="800" Background="#FF1C4C74" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid x:Name="myGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>

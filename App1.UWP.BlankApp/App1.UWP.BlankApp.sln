@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.29503.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App1.UWP.BlankApp", "App1.UWP.BlankApp\App1.UWP.BlankApp.csproj", "{8D6658F9-7CD6-4F98-85C0-3F18429319F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{3AE60D07-C8AE-483E-82E8-0DD57CA5F4D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfApp1", "WpfApp1\WpfApp1.csproj", "{3AE60D07-C8AE-483E-82E8-0DD57CA5F4D6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLevelEditor", "MyLevelEditor\MyLevelEditor.csproj", "{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,26 @@ Global
 		{3AE60D07-C8AE-483E-82E8-0DD57CA5F4D6}.Release|x64.Build.0 = Release|Any CPU
 		{3AE60D07-C8AE-483E-82E8-0DD57CA5F4D6}.Release|x86.ActiveCfg = Release|Any CPU
 		{3AE60D07-C8AE-483E-82E8-0DD57CA5F4D6}.Release|x86.Build.0 = Release|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Debug|ARM.Build.0 = Debug|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Debug|x64.Build.0 = Debug|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Debug|x86.Build.0 = Debug|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Release|ARM.ActiveCfg = Release|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Release|ARM.Build.0 = Release|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Release|ARM64.Build.0 = Release|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Release|x64.ActiveCfg = Release|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Release|x64.Build.0 = Release|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Release|x86.ActiveCfg = Release|Any CPU
+		{886F7138-90C1-485E-8B6E-3EEAF92E8E0E}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
