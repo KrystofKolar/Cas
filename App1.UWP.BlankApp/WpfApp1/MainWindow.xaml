@@ -22,17 +22,21 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="20" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="1" Grid.Row="1" FontStyle="Oblique" FontWeight="Bold" Foreground="#FFFFE90E" Margin="10,10,10,10" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Grid.Column="1" Grid.Row="1" FontStyle="Oblique" FontWeight="Bold" Margin="10,10,10,10" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">
+            <TextBlock.Foreground>
+                <SolidColorBrush Color="#FFFFE90E" Opacity="1"/>
+            </TextBlock.Foreground>
             <TextBlock.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0" Opacity="1">
                     <GradientStop Color="Red"/>
                     <GradientStop Color="DarkOrange" Offset="1"/>
                 </LinearGradientBrush>
             </TextBlock.Background>
             Hello World of WPF
         </TextBlock>
-        <TextBox  x:Name="tbText" Grid.Row ="2" Grid.Column="1" Grid.ColumnSpan="3" Text="Text in xaml"/>
-        <Button x:Name="subButton" Content="{Binding ElementName=tbText, Path=Text, Mode=OneWay}" Grid.Column="1" Grid.Row="3" Background="FloralWhite" BorderBrush="{x:Null}" Margin="20,60,20,20"  Click="SubmitButton_Click" Width="96" Height="48" FontSize="8" FontFamily="Verdana" />
+        <TextBox  x:Name="tbText" Grid.Column="1" Grid.Row ="2" Grid.ColumnSpan="3" Text="Sender" Background="#FF0765EC"/>
+        <Button x:Name="subButton" Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3" Content="{Binding ElementName=tbText, Path=Text, Mode=OneWay}"  Click="SubmitButton_Click" Background="#FF5B52B9">
+        </Button>
     </Grid>
-    
+
 </Window>

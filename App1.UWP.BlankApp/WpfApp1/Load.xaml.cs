@@ -26,7 +26,11 @@ namespace WpfApp1
         {
             double i = MyRowdef.ActualHeight;
             tbName.FontSize = i * 0.75F;
-            tbName.Text = i.ToString("#.##");
+            tbName.Text = i.ToString("00");
+
+            string s = "A";
+            int len = System.Text.ASCIIEncoding.Unicode.GetByteCount(s);
+            // System.Text.ASCIIEncoding.ASCII.GetByteCount(s);
         }
     }
 }

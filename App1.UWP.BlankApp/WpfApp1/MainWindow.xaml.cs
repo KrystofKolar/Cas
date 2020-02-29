@@ -24,8 +24,8 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
-            //tbText.Text = "New text";
-            timer.Interval = new TimeSpan(10 * 1000 * 1000);
+
+            timer.Interval = new TimeSpan(10 * 1000 * 1); // 1ms in ticks(100 ns)
             timer.Tick += Timer_Tick;
         }
 

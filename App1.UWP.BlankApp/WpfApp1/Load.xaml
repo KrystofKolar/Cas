@@ -7,7 +7,7 @@
         xmlns:testGfx="clr-namespace:GfxItem"
         mc:Ignorable="d"
         Title="test" WindowStartupLocation="CenterScreen" ShowInTaskbar="True" Width="800" Height="480" 
-        x:Name="WindowLoad" ResizeMode="NoResize" WindowStyle="SingleBorderWindow"
+        x:Name="WindowLoad" ResizeMode="CanResizeWithGrip" WindowStyle="SingleBorderWindow"
         >
     <!--xmlns:local="clr-namespace:WpfApp1"-->
     <Window.Resources>
@@ -25,13 +25,15 @@
                                Path=Width,
                                Converter={StaticResource CwaConvert},
                                ConverterParameter='1.05'}"
-               Height="{Binding ElementName=WindowLoad, Path=ActualHeight}"
-               Opacity="0" />
-
+               Height="{Binding ElementName=WindowLoad, Path=ActualHeight}" 
+               Visibility="Collapsed">
+        </Image>
+        
         <Grid Grid.Row="0" Grid.RowSpan="3">
-            <Image Width="{Binding ElementName=image, Path=ActualWidth}"
+            <!--<Image Width="{Binding ElementName=image, Path=ActualWidth}"
                    Height="{Binding ElementName=image, Path=ActualHeight}"
-                   HorizontalAlignment="Center" VerticalAlignment="Top">
+                   HorizontalAlignment="Center" VerticalAlignment="Top" >-->
+            <Image Stretch="UniformToFill">
                 <Image.Source>
                     <FormatConvertedBitmap Source="{Binding ElementName=image, Path=Source}" DestinationFormat="Gray8"/>
                 </Image.Source>
