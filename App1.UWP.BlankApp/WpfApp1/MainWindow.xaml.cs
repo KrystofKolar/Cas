@@ -34,9 +34,11 @@ namespace WpfApp1
             timer.Stop();
 
             Hide();
-            Load lw = new Load();
+
+            Load lw = new Load(this);
             lw.ShowDialog();
-            Close();
+
+            //Close();
         }
 
         DispatcherTimer timer = new DispatcherTimer();

@@ -28,7 +28,7 @@
                Height="{Binding ElementName=WindowLoad, Path=ActualHeight}" 
                Visibility="Collapsed">
         </Image>
-        
+
         <Grid Grid.Row="0" Grid.RowSpan="3">
             <!--<Image Width="{Binding ElementName=image, Path=ActualWidth}"
                    Height="{Binding ElementName=image, Path=ActualHeight}"
@@ -43,7 +43,22 @@
         Text="{Binding ElementName=MyRowdef, Path=ActualHeight, Mode=OneWay}"
         FontSize="{Binding ElementName=MyRowdef, Path=ActualHeight}"
         -->
-        <TextBox x:Name="tbName" Grid.Row="1" Background="Transparent" BorderBrush="Transparent" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top"  />
+        <Grid Grid.Row="1" >
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" x:Name="lbName" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <!--<Button Click="Button_Click" Height="{Binding ElementName=bnImage, Path=Height}" Width="{Binding ElementName=bnImage, Path=Width}">-->
+            <Button x:Name="bnImage" Grid.Column="1" Click="Button_Click" BorderBrush="Transparent" Background="Transparent" HorizontalAlignment="Right">
+                <!--<Polygon Margin="4,0" Points="3,6 6,0 0,0 3,6" Stroke="White" Fill="White" ></Polygon>-->
+                <Image  Source="/Images/Back.png" >
+                </Image>
+            </Button>
+        </Grid>
     </Grid>
 
 </Window>
