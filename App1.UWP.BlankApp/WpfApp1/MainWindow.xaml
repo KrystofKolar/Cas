@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfApp1"
+        xmlns:local="clr-namespace:GfxItem"
         mc:Ignorable="d" FontSize="38"
          Height="450" Width="800" Background="#FF1C4C74" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
@@ -21,8 +21,12 @@
                 </EventTrigger>
             </Style.Triggers>
         </Style>
+
+        <!--<local:ItemViewable x:Key="vItem" Id="100" Name="Testitem" Visible="true"/>-->
+        
     </Window.Resources>
-    <Grid x:Name="myGrid">
+    
+    <Grid x:Name="myGrid" DataContext="{Binding ElementName=listBox1, Path=SelectedItem}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
             <ColumnDefinition Width="96" />
@@ -40,10 +44,16 @@
         </Grid.RowDefinitions>
         <TextBox  Grid.Row ="1" Grid.Column="1"  Grid.ColumnSpan="2" x:Name="tbText" Text="Sender" Background="#FF0765EC" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <Label Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Content="{Binding ElementName=tbText, Path=Text}" Margin="20, 10" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
+        <Button Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" x:Name="subButton" Click="SubmitButton_Click" Background="#FF5B52B9" Content="Window"/>
         <Button Grid.Row="2" Grid.Column="4" Click="Button_ClickMgOpen" Content="Monogame Window" Background="#FF6F9BFB" />
         <Button Grid.Row="3" Grid.Column="1" Content="Abc"></Button>
-        <Button Grid.Row="3" Grid.Column="4" x:Name="subButton" Click="SubmitButton_Click" Background="#FF5B52B9" Content="Window">
-        </Button>
+        <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" >
+            <TextBox FontSize="24" Text="{Binding Path=Id}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBox FontSize="24" Text="{Binding Path=Name}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBox FontSize="24" Text="{Binding Path=Visible}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Button FontSize="24" Content="Save" Click="Button_Click" />
+        </StackPanel>
+        <ListBox Name="listBox1" Grid.Row="3" Grid.Column="4"/>
     </Grid>
 
 </Window>

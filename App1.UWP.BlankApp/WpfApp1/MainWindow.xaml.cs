@@ -25,8 +25,25 @@ namespace WpfApp1
         {
             InitializeComponent();
 
+            listBox1.ItemsSource = GetItems();
+            listBox1.DisplayMemberPath = "Name";
+            listBox1.SelectedIndex = 0;
+            listBox1.Focus();
+
             timer.Interval = new TimeSpan(10 * 1000 * 1); // 1ms in ticks(100 ns)
             timer.Tick += Timer_Tick;
+        }
+
+        private List<GfxItem.ItemViewable> GetItems()
+        {
+            List<GfxItem.ItemViewable> items = new List<GfxItem.ItemViewable> {
+
+                      new GfxItem.ItemViewable { Id = 0, Name = "Eins", Visible = false },
+                      new GfxItem.ItemViewable { Id = 1, Name = "Zwei", Visible = false },
+                      new GfxItem.ItemViewable { Id = 2, Name = "Drei", Visible = false }
+            };
+
+            return items;
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -50,6 +67,14 @@ namespace WpfApp1
 
         private void Button_ClickMgOpen(object sender, RoutedEventArgs e)
         {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            // Save view item changes
+            int i = 0;
+
 
         }
     }

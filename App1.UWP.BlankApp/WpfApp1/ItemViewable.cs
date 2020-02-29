@@ -6,7 +6,18 @@ namespace GfxItem
 {
     public class ItemViewable : Item
     {
-        public bool Visible { get; set; }
+        private bool visible;
+
+        public bool Visible 
+        { 
+            get { return visible; }
+
+            set
+            {
+                visible = value;
+                OnPropertyChanged(new System.ComponentModel.PropertyChangedEventArgs("Visible"));
+            }
+        }
 
     }
 }
