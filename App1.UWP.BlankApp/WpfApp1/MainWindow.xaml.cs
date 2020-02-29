@@ -47,5 +47,10 @@ namespace WpfApp1
         {
             timer.Start();
         }
+
+        private void Button_ClickMgOpen(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

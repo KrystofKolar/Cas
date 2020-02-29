@@ -6,6 +6,22 @@
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d" FontSize="38"
          Height="450" Width="800" Background="#FF1C4C74" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="MouseEnter">
+                    <EventTrigger.Actions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation From="0.5" To="1" Duration="0:0:2"
+                                                 Storyboard.TargetProperty="(Opacity)" />
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger.Actions>
+                </EventTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid x:Name="myGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -24,6 +40,8 @@
         </Grid.RowDefinitions>
         <TextBox  Grid.Row ="1" Grid.Column="1"  Grid.ColumnSpan="2" x:Name="tbText" Text="Sender" Background="#FF0765EC" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <Label Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Content="{Binding ElementName=tbText, Path=Text}" Margin="20, 10" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
+        <Button Grid.Row="2" Grid.Column="4" Click="Button_ClickMgOpen" Content="Monogame Window" Background="#FF6F9BFB" />
+        <Button Grid.Row="3" Grid.Column="1" Content="Abc"></Button>
         <Button Grid.Row="3" Grid.Column="4" x:Name="subButton" Click="SubmitButton_Click" Background="#FF5B52B9" Content="Window">
         </Button>
     </Grid>
