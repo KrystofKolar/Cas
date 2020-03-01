@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Text;
 
 namespace GfxItem
@@ -40,6 +41,7 @@ namespace GfxItem
             set
             {
                 name = value;
+                Debug.WriteLine($"Name changed to {name}");
                 OnPropertyChanged(new PropertyChangedEventArgs("Name"));
             }
         }

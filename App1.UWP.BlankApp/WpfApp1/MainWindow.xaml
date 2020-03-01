@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GfxItem"
+        xmlns:local2="clr-namespace:val"
         mc:Ignorable="d" FontSize="38"
          Height="800" Width="800" Background="#FF1C4C74" WindowStyle="SingleBorderWindow" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Window.Resources>
@@ -49,7 +50,13 @@
         <Button Grid.Row="3" Grid.Column="1" Content="Abc"></Button>
         <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" >
             <TextBox Name="txtId" FontSize="24" Text="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-            <TextBox Name="txtName" FontSize="24" Text="{Binding Path=Name}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBox Name="txtName" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay" >
+                    <Binding.ValidationRules>
+                    <local2:ValidationRuleName />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
             <TextBox Name="txtVisible" FontSize="24" Text="{Binding Path=Visible}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <Button Name="bnAdd" FontSize="24" Content="Add" Click="Button_Add" />
             <Button Name="bnDelete" FontSize="24" Content="Delete" Click="Button_Delete" />
