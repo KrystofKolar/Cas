@@ -6,8 +6,33 @@ using System.Text;
 
 namespace GfxItem
 {
-    public class Item : INotifyPropertyChanged
+    public class Item : INotifyPropertyChanged, IDataErrorInfo
     {
+        public string Error
+        {
+            get {
+                return null;  
+            }
+        }
+
+        public string this[string propertyname]
+        {
+            get
+            {
+                if (propertyname == "Id")
+                {
+                    if (id == 123)
+                    {
+                        Debug.WriteLine($"Property IDataErrorInfo check id={id} ERROR.");
+                        return "123 als id ist nicht erlaubt";
+                    }
+                }
+
+                Debug.WriteLine($"Property IDataErrorInfo check id={id} success.");
+                return null;
+            }
+        }
+
         private int id = -1;
         public int Id 
         {

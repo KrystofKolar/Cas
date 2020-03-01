@@ -49,7 +49,15 @@
         <Button Grid.Row="2" Grid.Column="4" Click="Button_ClickMgOpen" Content="Monogame Window" Background="#FF6F9BFB" />
         <Button Grid.Row="3" Grid.Column="1" Content="Abc"></Button>
         <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" >
-            <TextBox Name="txtId" FontSize="24" Text="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+            <TextBox Name="txtId" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <!--Text="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"-->
+                <Binding Path="Id" UpdateSourceTrigger="PropertyChanged">
+                    <Binding.ValidationRules>
+                        <DataErrorValidationRule />
+                    </Binding.ValidationRules>
+                </Binding>
+            </TextBox>
             <TextBox Name="txtName" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Binding Path="Name" UpdateSourceTrigger="PropertyChanged" Mode="TwoWay" >
                     <Binding.ValidationRules>

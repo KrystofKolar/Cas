@@ -29,7 +29,6 @@ namespace App1.UWP.BlankApp
 
         private void btnButton1_Click(object sender, RoutedEventArgs e)
         {
-            int i = 0;
         }
     }
 }
