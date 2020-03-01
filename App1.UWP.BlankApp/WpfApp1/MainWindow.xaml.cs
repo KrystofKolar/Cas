@@ -97,16 +97,23 @@ namespace WpfApp1
 
         private void Button_Save(object sender, RoutedEventArgs e)
         {
-            GfxItem.ItemViewable item = new GfxItem.ItemViewable
+            GfxItem.ItemViewable item = new GfxItem.ItemViewable();
+
+            int num;
+            bool success = Int32.TryParse(txtId.Text, out num);
+
+            if (success)
             {
-                Id = int.Parse(txtId.Text),
-                Name = txtName.Text,
-                Visible = txtVisible.Text.Length != 0 ? true: false
+                item.Id = num;
+                item.Name = txtName.Text;
+                item.Visible = txtVisible.Text.Length != 0 ? true : false;
+
+                items.Add(item);
+
+                Binding(true);
             };
 
-            items.Add(item);
-
-            Binding(true);
+            //todo some tooltip etc.
         }
 
         private void Button_Cancel(object sender, RoutedEventArgs e)

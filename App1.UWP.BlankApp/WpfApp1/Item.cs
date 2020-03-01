@@ -17,8 +17,15 @@ namespace GfxItem
 
             set
             {
-                id = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("Id"));
+                if (value < 0)
+                {
+                    throw new ArgumentException("Negative id not allowed");
+                }
+                else
+                {
+                    id = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("Id"));
+                }
             }
         }
 

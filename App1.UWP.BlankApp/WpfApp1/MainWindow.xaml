@@ -48,7 +48,7 @@
         <Button Grid.Row="2" Grid.Column="4" Click="Button_ClickMgOpen" Content="Monogame Window" Background="#FF6F9BFB" />
         <Button Grid.Row="3" Grid.Column="1" Content="Abc"></Button>
         <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" >
-            <TextBox Name="txtId" FontSize="24" Text="{Binding Path=Id}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <TextBox Name="txtId" FontSize="24" Text="{Binding Path=Id, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBox Name="txtName" FontSize="24" Text="{Binding Path=Name}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <TextBox Name="txtVisible" FontSize="24" Text="{Binding Path=Visible}" HorizontalAlignment="Center" VerticalAlignment="Center" />
             <Button Name="bnAdd" FontSize="24" Content="Add" Click="Button_Add" />
