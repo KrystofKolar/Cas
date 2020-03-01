@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,11 +22,13 @@ namespace WpfApp1
     /// </summary>
     public partial class MainWindow : Window
     {
+        ObservableCollection<GfxItem.ItemViewable> items;
         public MainWindow()
         {
             InitializeComponent();
 
-            listBox1.ItemsSource = GetItems();
+            items = GetItems();
+            listBox1.ItemsSource = items;
             listBox1.DisplayMemberPath = "Name";
             listBox1.SelectedIndex = 0;
             listBox1.Focus();
@@ -34,13 +37,13 @@ namespace WpfApp1
             timer.Tick += Timer_Tick;
         }
 
-        private List<GfxItem.ItemViewable> GetItems()
+        private ObservableCollection<GfxItem.ItemViewable> GetItems()
         {
-            List<GfxItem.ItemViewable> items = new List<GfxItem.ItemViewable> {
+            ObservableCollection<GfxItem.ItemViewable> items = new ObservableCollection<GfxItem.ItemViewable> {
 
-                      new GfxItem.ItemViewable { Id = 0, Name = "Eins", Visible = false },
-                      new GfxItem.ItemViewable { Id = 1, Name = "Zwei", Visible = false },
-                      new GfxItem.ItemViewable { Id = 2, Name = "Drei", Visible = false }
+                      new GfxItem.ItemViewable { Id = 1, Name = "Eins", Visible = true },
+                      new GfxItem.ItemViewable { Id = 2, Name = "Zwei", Visible = false },
+                      new GfxItem.ItemViewable { Id = 3, Name = "Drei", Visible = true }
             };
 
             return items;
@@ -70,12 +73,67 @@ namespace WpfApp1
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Add(object sender, RoutedEventArgs e)
         {
-            // Save view item changes
-            int i = 0;
+            txtId.Text = "";
+            txtName.Text = "";
+            txtVisible.Text = "";
 
+            txtId.Focus();
 
+            Binding(false);
+        }
+
+        private void Button_Delete(object sender, RoutedEventArgs e)
+        {
+            int idx = listBox1.SelectedIndex;
+            items.RemoveAt(idx);
+
+            if (items.Count == 0) 
+                bnDelete.IsEnabled = false;
+            else 
+                listBox1.SelectedIndex = 0;
+        }
+
+        private void Button_Save(object sender, RoutedEventArgs e)
+        {
+            GfxItem.ItemViewable item = new GfxItem.ItemViewable
+            {
+                Id = int.Parse(txtId.Text),
+                Name = txtName.Text,
+                Visible = txtVisible.Text.Length != 0 ? true: false
+            };
+
+            items.Add(item);
+
+            Binding(true);
+        }
+
+        private void Button_Cancel(object sender, RoutedEventArgs e)
+        {
+            Binding(true);
+            listBox1.SelectedIndex = 0;
+        }
+
+        private void Binding(bool create)
+        {
+            if (create)
+            {
+                Binding binding = new Binding("Id");
+                txtId.SetBinding(TextBox.TextProperty, binding);
+
+                binding = new Binding("Name");
+                txtName.SetBinding(TextBox.TextProperty, binding);
+
+                binding = new Binding("Visible");
+                txtVisible.SetBinding(TextBox.TextProperty, binding);
+            }
+            else
+            {
+                BindingOperations.ClearBinding(txtId, TextBox.TextProperty);
+                BindingOperations.ClearBinding(txtName, TextBox.TextProperty);
+                BindingOperations.ClearBinding(txtVisible, TextBox.TextProperty);
+            }
         }
     }
 }
