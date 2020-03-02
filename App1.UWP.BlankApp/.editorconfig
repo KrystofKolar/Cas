@@ -2,3 +2,6 @@
 
 # CA1507: Use nameof to express symbol names
 dotnet_diagnostic.CA1507.severity = none
+
+# CA1303: Do not pass literals as localized parameters
+dotnet_diagnostic.CA1303.severity = none

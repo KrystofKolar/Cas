@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,10 +69,6 @@ namespace WpfApp1
             timer.Start();
         }
 
-        private void Button_ClickMgOpen(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void Button_Add(object sender, RoutedEventArgs e)
         {
@@ -141,6 +138,21 @@ namespace WpfApp1
                 BindingOperations.ClearBinding(txtName, TextBox.TextProperty);
                 BindingOperations.ClearBinding(txtVisible, TextBox.TextProperty);
             }
+        }
+
+        private void Button_ClickMgOpen(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("Button_ClickMgOpen"); //todo
+        }
+
+        private void Button_ClickOpenCanvas(object sender, RoutedEventArgs e)
+        {
+            //Hide();
+
+            CanvasWindow cw = new CanvasWindow();
+            cw.ShowDialog(); // modal
+
+            //Show();
         }
     }
 }
