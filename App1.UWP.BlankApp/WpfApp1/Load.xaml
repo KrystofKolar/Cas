@@ -7,7 +7,7 @@
         xmlns:testGfx="clr-namespace:GfxItem"
         mc:Ignorable="d"
         Title="test" WindowStartupLocation="CenterScreen" ShowInTaskbar="True" Width="800" Height="480" 
-        x:Name="WindowLoad" ResizeMode="CanResizeWithGrip" WindowStyle="SingleBorderWindow"
+        x:Name="WindowLoad" ResizeMode="CanResizeWithGrip" WindowStyle="SingleBorderWindow" Closing="WindowLoad_Closing"
         >
     <!--xmlns:local="clr-namespace:WpfApp1"-->
     <Window.Resources>

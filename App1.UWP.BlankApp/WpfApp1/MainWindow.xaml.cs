@@ -54,7 +54,7 @@ namespace WpfApp1
         {
             timer.Stop();
 
-            Hide();
+            //Hide();
 
             Load lw = new Load(this);
             lw.ShowDialog();

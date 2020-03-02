@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -40,13 +41,18 @@ namespace WpfApp1
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Hide();
+            //Hide();
 
-            MainWindow mw = (MainWindow)Caller;
-            mw.ShowDialog();
+            //MainWindow mw = (MainWindow)Caller;
+            //mw.ShowDialog();
 
             Close();
 
+        }
+
+        private void WindowLoad_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Debug.WriteLine("Load Window closing");
         }
     }
 }
