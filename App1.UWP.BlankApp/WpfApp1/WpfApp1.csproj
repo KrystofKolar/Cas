@@ -21,6 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MyLevelEditor\MyLevelEditor.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Images\Back.png" />
     <Resource Include="Images\ColorMix.png" />
     <Resource Include="Images\sketch_dark.png" />
