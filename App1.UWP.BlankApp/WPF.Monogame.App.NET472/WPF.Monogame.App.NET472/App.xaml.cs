@@ -27,6 +27,13 @@ namespace WPF.Monogame.App.NET472
             application.InitializeComponent();
             application.Run();
         }
+
+        public void Go()
+        {
+            var application = new App();
+            application.InitializeComponent();
+            application.Run();
+        }
     }
 
 }

@@ -77,12 +77,17 @@ namespace WPF.App.NET472
 
 
 
-            Type mw= typeof(WPF.Monogame.App.NET472.MainWindow);
+            if (false)
+            {
+                Type mw = typeof(WPF.Monogame.App.NET472.starter);
 
-            WPF.Monogame.App.NET472.MainWindow instance = 
-                (WPF.Monogame.App.NET472.MainWindow)
-                domain.CreateInstanceAndUnwrap(mw.Assembly.FullName, mw.FullName);
-            instance.Show();
+                WPF.Monogame.App.NET472.starter inst =
+                    (WPF.Monogame.App.NET472.starter)
+                    domain.CreateInstanceAndUnwrap(mw.Assembly.FullName, mw.FullName);
+
+                inst.Go(); // Content load exception, is marked not serializeable
+                           // so no appdomain solution works
+            }
         }
     }
 }
