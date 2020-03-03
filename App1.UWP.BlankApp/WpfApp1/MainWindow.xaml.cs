@@ -157,20 +157,22 @@ namespace WpfApp1
             Module md = asm.ManifestModule;
 
             // cannot create another app in the same appdomain
-
             //MyLevelEditor.App app = new MyLevelEditor.App();
             //app.Run();
 
             // multiple appdomains, not supported in .NET Core
-
             //AppDomain domain = AppDomain.CreateDomain("Domain.Mg");
             //Type tMg = typeof(MyLevelEditor.App);
             //MyLevelEditor.App dapp = (MyLevelEditor.App)domain.CreateInstanceAndUnwrap(asm.FullName, tMg.FullName); 
 
 
-            // Starting the library 
-            MyLevelEditor.MainWindow mv = new MyLevelEditor.MainWindow();
-            mv.ShowDialog();
+            // Starting the library, but monogama not fired(app supported only?)
+            //MyLevelEditor.MainWindow mv = new MyLevelEditor.MainWindow();
+            //mv.ShowDialog();
+
+            // Start normal wpf window library
+            TestFrame.MainWindow frame = new TestFrame.MainWindow();
+            frame.ShowDialog();
         }
 
         private void Button_ClickOpenCanvas(object sender, RoutedEventArgs e)

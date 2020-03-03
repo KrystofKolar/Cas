@@ -4,6 +4,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <StartupObject></StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WPF.Monogame.App.NET472\WPF.Monogame.App.NET472\WPF.Monogame.App.NET472.csproj" />
+    <ProjectReference Include="..\TestFrame\WPF.Frame.Library.NETCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
