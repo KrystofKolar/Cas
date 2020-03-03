@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace MyLevelEditor
+namespace WPF.Monogame.App.NET472
 {
     public partial class App : Application
     {

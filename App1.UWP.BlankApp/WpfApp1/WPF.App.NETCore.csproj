@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MyLevelEditor\MyLevelEditor.csproj" />
+    <ProjectReference Include="..\WPF.Monogame.App.NET472\WPF.Monogame.App.NET472\WPF.Monogame.App.NET472.csproj" />
   </ItemGroup>
 
   <ItemGroup>

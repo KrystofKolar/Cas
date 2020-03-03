@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -140,9 +141,36 @@ namespace WpfApp1
             }
         }
 
-        private void Button_ClickMgOpen(object sender, RoutedEventArgs e)
+        private void Button_ClickAppDomain(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Button_ClickMgOpen"); //todo
+            //TestFrame.MainWindow mw = new TestFrame.MainWindow();
+            //mw.Show();
+
+            Assembly asm = Assembly.GetEntryAssembly();
+            string s = asm.FullName;
+            if (asm.GlobalAssemblyCache)
+            {
+                int i = 0;
+            }
+            MethodInfo info = asm.EntryPoint;
+
+            Module md = asm.ManifestModule;
+
+            // cannot create another app in the same appdomain
+
+            //MyLevelEditor.App app = new MyLevelEditor.App();
+            //app.Run();
+
+            // multiple appdomains, not supported in .NET Core
+
+            //AppDomain domain = AppDomain.CreateDomain("Domain.Mg");
+            //Type tMg = typeof(MyLevelEditor.App);
+            //MyLevelEditor.App dapp = (MyLevelEditor.App)domain.CreateInstanceAndUnwrap(asm.FullName, tMg.FullName); 
+
+
+            // Starting the library 
+            MyLevelEditor.MainWindow mv = new MyLevelEditor.MainWindow();
+            mv.ShowDialog();
         }
 
         private void Button_ClickOpenCanvas(object sender, RoutedEventArgs e)

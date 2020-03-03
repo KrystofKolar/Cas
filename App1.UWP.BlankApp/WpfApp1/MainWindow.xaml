@@ -46,7 +46,7 @@
         <TextBox  Grid.Row ="1" Grid.Column="1"  Grid.ColumnSpan="2" x:Name="tbText" Text="Sender" Background="#FF0765EC" HorizontalAlignment="Left" VerticalAlignment="Center"/>
         <Label Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Content="{Binding ElementName=tbText, Path=Text}" Margin="20, 10" HorizontalAlignment="Left" VerticalAlignment="Center"></Label>
         <Button Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" x:Name="subButton" Click="SubmitButton_Click" Background="#FF5B52B9" Content="Window"/>
-        <Button Grid.Row="2" Grid.Column="4" Click="Button_ClickMgOpen" Content="Monogame Window" Background="#FF6F9BFB" />
+        <Button Grid.Row="2" Grid.Column="4" Click="Button_ClickAppDomain" Content="Monogame Window" Background="#FF6F9BFB" />
         <Button Grid.Row="3" Grid.Column="1" Content="Abc" Click="Button_ClickOpenCanvas"></Button>
         <StackPanel Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" >
 
