@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Reflection;
 using System.Windows;
 
 namespace WPF.Monogame.App.NET472
@@ -18,6 +20,7 @@ namespace WPF.Monogame.App.NET472
 
     }
 
+    [Serializable]
     public class starter : MarshalByRefObject
     {
         [STAThread]
@@ -28,11 +31,19 @@ namespace WPF.Monogame.App.NET472
             application.Run();
         }
 
-        public void Go()
+        [STAThread]
+        public static void Go()
         {
             var application = new App();
             application.InitializeComponent();
             application.Run();
+        }
+
+        public static string GetName()
+        {
+            Type mw = typeof(WPF.Monogame.App.NET472.starter);
+            string str = mw.Assembly.ManifestModule.Name;
+            return str;
         }
     }
 

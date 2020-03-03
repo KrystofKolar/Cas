@@ -15,4 +15,14 @@
   <ItemGroup>
     <MonoGameContentReference Include="**\*.mgcb" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Content\monogame-logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Content\monogame-logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

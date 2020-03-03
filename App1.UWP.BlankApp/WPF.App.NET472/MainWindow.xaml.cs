@@ -76,18 +76,34 @@ namespace WPF.App.NET472
             var res = item.Calc();
 
 
-
-            if (false)
+            try
             {
-                Type mw = typeof(WPF.Monogame.App.NET472.starter);
+                if (true)
+                {
+                    Type mw = typeof(WPF.Monogame.App.NET472.starter);
 
-                WPF.Monogame.App.NET472.starter inst =
-                    (WPF.Monogame.App.NET472.starter)
-                    domain.CreateInstanceAndUnwrap(mw.Assembly.FullName, mw.FullName);
+                    WPF.Monogame.App.NET472.starter inst =
+                        (WPF.Monogame.App.NET472.starter)
+                        domain.CreateInstanceAndUnwrap(mw.Assembly.FullName, mw.FullName);
 
-                inst.Go(); // Content load exception, is marked not serializeable
-                           // so no appdomain solution works
+                    WPF.Monogame.App.NET472.starter.Go(); // Content load exception, is marked not serializeable
+                                                          // so no appdomain solution works
+                }
             }
+            catch (Exception)
+            {
+
+            }
+
+            string myPath = System.Reflection.Assembly.GetEntryAssembly().Location;
+            string myDir = System.IO.Path.GetDirectoryName(myPath);
+            
+            s = WPF.Monogame.App.NET472.starter.GetName();
+
+            string full = System.IO.Path.Combine(myDir, s);
+            
+
+            System.Diagnostics.Process.Start(full);
         }
     }
 }
