@@ -29,7 +29,7 @@ namespace WPF.Monogame.App.NET472
         private void CombineImages()
         {
             string[] path = new string[4];
-            string pathTile;
+            string pathTile ="test";
 
             // Loads the images to tile (no need to specify PngBitmapDecoder, the correct decoder is automatically selected)
             BitmapFrame frame1 = BitmapDecoder.Create(new Uri(path[0]), BitmapCreateOptions.None, BitmapCacheOption.OnLoad).Frames.First();
