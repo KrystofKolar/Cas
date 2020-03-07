@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="WindowGfx" Height="450" Width="800">
     <Grid>
-        
+        <local:HorizontalAxis 
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Center" 
+            Width="300" 
+            Height="96"/>
     </Grid>
 </Window>

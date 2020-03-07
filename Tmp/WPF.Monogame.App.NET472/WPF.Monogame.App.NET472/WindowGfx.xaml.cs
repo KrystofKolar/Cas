@@ -23,27 +23,38 @@ namespace WPF.Monogame.App.NET472
         public WindowGfx()
         {
             InitializeComponent();
-        }
 
+            CombineImages();
+        }
 
         private void CombineImages()
         {
             string[] path = new string[4];
-            string pathTile ="test";
+            path[0] = "pack://application:,,,/Content/a.png";
+            path[1] = "pack://application:,,,/Content/b.png";
+            path[2] = "pack://application:,,,/Content/c.png";
+            path[3] = "pack://application:,,,/Content/d.png";
+
+            string pathTile ="combined.png";
 
             // Loads the images to tile (no need to specify PngBitmapDecoder, the correct decoder is automatically selected)
-            BitmapFrame frame1 = BitmapDecoder.Create(new Uri(path[0]), BitmapCreateOptions.None, BitmapCacheOption.OnLoad).Frames.First();
+            BitmapFrame frame1 = BitmapDecoder.Create(new Uri(path[0]), 
+                                                      BitmapCreateOptions.None, 
+                                                      BitmapCacheOption.OnLoad).Frames.First();
             BitmapFrame frame2 = BitmapDecoder.Create(new Uri(path[1]), BitmapCreateOptions.None, BitmapCacheOption.OnLoad).Frames.First();
             BitmapFrame frame3 = BitmapDecoder.Create(new Uri(path[2]), BitmapCreateOptions.None, BitmapCacheOption.OnLoad).Frames.First();
             BitmapFrame frame4 = BitmapDecoder.Create(new Uri(path[3]), BitmapCreateOptions.None, BitmapCacheOption.OnLoad).Frames.First();
 
-            // Gets the size of the images (I assume each image has the same size)
+            // image size
             int imageWidth = frame1.PixelWidth;
             int imageHeight = frame1.PixelHeight;
 
             // Draws the images into a DrawingVisual component
+            // https://docs.microsoft.com/en-us/dotnet/framework/wpf/graphics-multimedia/using-drawingvisual-objects
             DrawingVisual drawingVisual = new DrawingVisual();
 
+            // Describes visual content using draw, push, and pop commands.
+            // https://docs.microsoft.com/en-us/dotnet/api/system.windows.media.drawingcontext?view=netframework-4.8
             using (DrawingContext drawingContext = drawingVisual.RenderOpen())
             {
                 drawingContext.DrawImage(frame1, new Rect(0, 0, imageWidth, imageHeight));
@@ -53,7 +64,11 @@ namespace WPF.Monogame.App.NET472
             }
 
             // Converts the Visual (DrawingVisual) into a BitmapSource
-            RenderTargetBitmap bmp = new RenderTargetBitmap(imageWidth * 2, imageHeight * 2, 96, 96, PixelFormats.Pbgra32);
+            RenderTargetBitmap bmp = new RenderTargetBitmap(imageWidth * 2,
+                                                            imageHeight * 2,
+                                                            96,
+                                                            96,
+                                                            PixelFormats.Pbgra32);
             bmp.Render(drawingVisual);
 
             // Creates a PngBitmapEncoder and adds the BitmapSource to the frames of the encoder

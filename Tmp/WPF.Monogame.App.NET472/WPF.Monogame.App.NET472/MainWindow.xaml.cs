@@ -10,5 +10,11 @@ namespace WPF.Monogame.App.NET472
         {
             InitializeComponent();
         }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            WindowGfx wnd = new WindowGfx();
+            wnd.ShowDialog();
+        }
     }
 }
