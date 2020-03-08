@@ -4,12 +4,14 @@
     <TargetFramework>net472</TargetFramework>
     <UseWPF>true</UseWPF>
     <StartupObject>WPF.Monogame.App.NET472.starter</StartupObject>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.7.1.189" />
     <PackageReference Include="MonoGame.Content.Builder" Version="3.7.0.8" />
     <PackageReference Include="SharpDX" Version="4.2.0" />
+    <PackageReference Include="Syncfusion.Pdf.Wpf" Version="17.4.0.53" />
   </ItemGroup>
 
   <ItemGroup>

@@ -20,6 +20,41 @@ namespace WPF.Monogame.App.NET472
         {
             base.OnRender(drawingContext);
 
+            //float dpiX, dpiY;
+            //Graphics graphics = this.CreateGraphics();
+            //dpiX = graphics.DpiX;
+            //dpiY = graphics.DpiY;
+
+            Size szRect = new Size(100, 50);
+
+            Point center = new Point(ActualWidth / 2, ActualHeight / 2);
+            Point location = center;
+            location.X -= szRect.Width / 2;
+            location.Y -= szRect.Height / 2;
+
+            Rect rect = new Rect(location, szRect);
+            drawingContext.DrawRectangle(null, new Pen(Brushes.Violet, 1.0), rect);
+
+
+            for (int a = 0; a <= 2; ++a)
+            {
+                double os = a * (double)ActualHeight / 2;
+
+                os = os - 8;
+
+                rect = new Rect(new Point(-15, os), new Size(30, 16));
+                drawingContext.DrawRectangle(null, new Pen(Brushes.IndianRed, 5.0), rect);
+
+                rect = new Rect(new Point(ActualWidth / 2 - 15, os), new Size(30, 16));
+                drawingContext.DrawRectangle(null, new Pen(Brushes.IndianRed, 5.0), rect);
+
+                rect = new Rect(new Point(ActualWidth - 15, os), new Size(30, 16));
+                drawingContext.DrawRectangle(null, new Pen(Brushes.IndianRed, 5.0), rect);
+            }
+
+
+
+
             double dbi = VisualTreeHelper.GetDpi(this).PixelsPerDip;
 
             double s = startPoint * dbi;
@@ -33,6 +68,7 @@ namespace WPF.Monogame.App.NET472
             drawingContext.DrawLine(mainPenRed, new Point(ActualWidth, 0 ), new Point(ActualWidth, ActualHeight));
             drawingContext.DrawLine(mainPenRed, new Point(ActualWidth, ActualHeight), new Point(0, ActualHeight));
             drawingContext.DrawLine(mainPenRed, new Point(0, ActualHeight), new Point(0, 0));
+
             // Draw ticks and text
             for (double i = 0.0; i <= e; i++)
             {
@@ -64,12 +100,10 @@ namespace WPF.Monogame.App.NET472
                         CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
                         new Typeface(new FontFamily("Segoe UI"), FontStyles.Normal, FontWeights.Normal, FontStretches.Normal),
                         12,
-                        Brushes.Black,
+                        Brushes.Green,
                         VisualTreeHelper.GetDpi(this).PixelsPerDip);
 
-                    
                     drawingContext.DrawText(ft2, new Point(i, ActualHeight ));
-
                 }
 
                 FormattedText ft96 = new FormattedText(

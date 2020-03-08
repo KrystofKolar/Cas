@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+using Syncfusion.Pdf;
+using Syncfusion.Pdf.Graphics;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -80,5 +83,27 @@ namespace WPF.Monogame.App.NET472
                 encoder.Save(stream);
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            
+            using (PdfDocument document = new PdfDocument())
+            {
+                //Add a page to the document
+                PdfPage page = document.Pages.Add();
+
+                //Create PDF graphics for a page
+                PdfGraphics graphics = page.Graphics;
+
+                //Set the standard font
+                PdfFont font = new PdfStandardFont(PdfFontFamily.Helvetica, 20);
+
+                //Draw the text
+                graphics.DrawString("Hello World!!!", font, PdfBrushes.Black, new System.Drawing.PointF(0, 0));
+
+                //Save the document
+                document.Save("Output.pdf");
+            }
+            
+        }
     }
 }

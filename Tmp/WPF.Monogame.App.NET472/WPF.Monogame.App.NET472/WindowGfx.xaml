@@ -5,12 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF.Monogame.App.NET472"
         mc:Ignorable="d"
-        Title="WindowGfx" Height="450" Width="800">
+        Title="WindowGfx" Height="800" Width="800">
     <Grid>
-        <local:HorizontalAxis 
-            VerticalAlignment="Center" 
-            HorizontalAlignment="Center" 
-            Width="300" 
-            Height="96"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="200" />
+            <RowDefinition Height="200" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <local:HorizontalAxis VerticalAlignment="Center" HorizontalAlignment="Center" 
+            Width="200" 
+            Height="100"
+            Grid.Row="0" />
+        
+        <Button Content="Button Dropshadow" Grid.Row="1" Margin="200,50">
+            <Button.BitmapEffect>
+                <!-- 
+                The DropShadowBitMapEffect has several important properties that
+             determine characteristics of the drop shadow: 
+             - Color: Specifies the color of the drop shadow (in this example black).
+             - ShadowDepth: Specifies how far displaced the shadow is from the object
+               casting the shadow. Default is 20.
+             - Direction: Specifies in what direction the shadow is cast from the object. 
+               It is an angle between 0 and 360 with 0 starting on the right hand side 
+               and moving counter-clockwise around the object. The value of 320 in this 
+               example casts the shadow on the lower right hand side of the button.
+             - Noise: Specifies how grainy the drop-shadow is. Range is between 0 and 1.
+               Default is 0.
+             - Softness: Specifies how soft the shadow. The range is between 0 and 1 with 1
+               being the softest. Default is 0.5. 
+             - Opacity: Specifies how transparent the shadow is. The range is between 0 
+               and 1 with 1 being fully opaque and 0 fully transparent (not visible). The
+               default is 1. -->
+                <DropShadowBitmapEffect Color="Gray" Direction="320" ShadowDepth="20" Softness="1" Opacity="0.5"/>
+            </Button.BitmapEffect>
+        </Button>
+        
+        <Button Grid.Row="2" Click="Button_Click" Margin="0,0,10,12" VerticalAlignment="Bottom" Height="30" BorderBrush="LightBlue" HorizontalAlignment="Right" Width="180">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,-0.04" StartPoint="0.5,1.04">
+                    <GradientStop Color="#FFD9E9F7" Offset="0"/>
+                    <GradientStop Color="#FFEFF8FF" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+            <StackPanel Orientation="Horizontal" Height="23" Margin="0,0,0,-2.52" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="100">
+                <Image Name="image2" Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <TextBlock Text="Create PDF" Height="15.96" Width="126" Margin="0,4,0,3" />
+            </StackPanel>
+        </Button>
     </Grid>
 </Window>
