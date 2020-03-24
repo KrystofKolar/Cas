@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>Library.NET_Standard.CwaStorage.Test</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Library.NET Standard.CasBase\Library.NET Standard.CasBase.csproj" />
+    <ProjectReference Include="..\Library.NET Standard.CwaAudio\Library.NET Standard.CwaAudio.csproj" />
+    <ProjectReference Include="..\Library.NET Standard.CwaStorage\Library.NET Standard.CwaStorage.csproj" />
+    <ProjectReference Include="..\Library.NET Standard.CwaSunMoonEngine\Library.NET Standard.CwaSunMoonEngine.csproj" />
+  </ItemGroup>
+
+</Project>
