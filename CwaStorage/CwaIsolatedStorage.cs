@@ -1,194 +1,342 @@
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+
+#if CWAISOLATEDSTORAGE_ISF
+using System.IO.IsolatedStorage;
+#endif
+
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.IO.IsolatedStorage;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+using System.Text.Json;
+using System.Xml;
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
-// Get a new isolated store for this assembly and put it into an
-// isolated store object.
-
-//        IsolatedStorageFile isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
+using dict = System.Collections.Generic.Dictionary<string, object>;
 
 namespace CwaIsolatedStorage
 {
     // http://developer.nokia.com/community/wiki/Introduction_and_best_practices_for_IsolatedStorageSettings
 
-    public static class IsolatedStorageHelper
+    // https://docs.microsoft.com/en-us/dotnet/standard/io/isolated-storage
+
+
+    public static class IsfCommon
     {
-        public static void SaveToIsoStore(String filenameResource)
+#if CWAISOLATEDSTORAGE_ISF
+        //private static IsolatedStorageFile isf = IsolatedStorageFile.GetUserStoreForApplication();
+        //                                         IsolatedStorageFile.GetStore(IsolatedStorageScope.User |
+        //                                                                      IsolatedStorageScope.Domain |
+        //                                                                      IsolatedStorageScope.Assembly, null, null);
+        //    IsolatedStorageFile.GetStore(IsolatedStorageScope.Application |
+        //                                 IsolatedStorageScope.User, null);
+#else
+        public static string isf = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+#endif
+
+        public static void SaveTextureToIso(string file, Texture2D tex)
         {
-            Debug.WriteLine("TODO: !!! Disabled SaveToIsoStore, because at the time of porting not called");
+#if CWAISOLATEDSTORAGE_ISF
+            //if(RemoveFileFromIso(fileNameIsoStore))
+            //{
+            //    Debug.WriteLine($"Info: SaveTextureToIso removed {fileNameIsoStore}");
+            //}
 
-            IsolatedStorageFile isolatedStorageFile = IsolatedStorageFile.GetUserStoreForApplication();
+            //using (IsolatedStorageFileStream stream = 
+            //    new IsolatedStorageFileStream(fileNameIsoStore, FileMode.Create, isf))
+            //{
+            //    //textureSaved.SaveAsJpeg(fileStream, textureSaved.Width, textureSaved.Height); // no alpha with jpeg
+            //    textureSaved.SaveAsPng(stream, textureSaved.Width, textureSaved.Height);
+            //}
+#else
+            file = Path.Combine(isf, file);
 
-            if (!isolatedStorageFile.FileExists(filenameResource))
+            using (Stream stream = new FileStream(file, FileMode.Create, FileAccess.Write))
             {
-                //StreamResourceInfo resource = Application.GetResourceStream(new Uri(filenameResource, UriKind.Relative));
-
-                using (IsolatedStorageFileStream isolatedStorageFileStream = isolatedStorageFile.CreateFile(filenameResource))
-                {
-                    //int chunkSize = 1024;
-                    //byte[] bytes = new byte[chunkSize];
-                    //int byteCount;
-
-                    //while ((byteCount = resource.Stream.Read(bytes, 0, chunkSize)) > 0)
-                    //{
-                    //    isolatedStorageFileStream.Write(bytes, 0, byteCount);
-                    //}
-                }
+                tex.SaveAsPng(stream, tex.Width, tex.Height);
             }
+#endif
         }
 
-        // create, overwrite file
-        public static bool SaveTextureToIso(string fileNameIsoStore, Texture2D textureSaved)
+        public static long FileSize(string file)
         {
-            try
+            long size = -1L;
+#if CWAISOLATEDSTORAGE_ISF
+            //if (isf.FileExists(filenameIsoStore))
+            //{
+            //    // there is a reflection version, but this is shorter, most likly slower
+            //    using (IsolatedStorageFileStream stream = 
+            //        new IsolatedStorageFileStream(filenameIsoStore, FileMode.Open, FileAccess.Read, isf))
+            //    {
+            //        size = stream.Length;
+            //    }
+            //}
+
+            //return size;
+#else
+            file = Path.Combine(isf, file);
+            FileInfo fi = new FileInfo(file);
+            if (fi.Exists)
             {
-                using (IsolatedStorageFile file = IsolatedStorageFile.GetUserStoreForApplication())
-                {
-                    //Debug.WriteLine("Delete then Save texture as jpg to Iso {0}", fileNameIsoStore);
-                    RemoveFileFromIso(fileNameIsoStore);
+                size = fi.Length;
+            }
 
-                    using (IsolatedStorageFileStream fileStream = new IsolatedStorageFileStream(fileNameIsoStore, FileMode.Create, file))
-                    {
-                        // no alpha with jpeg
-                        //textureSaved.SaveAsJpeg(fileStream, textureSaved.Width, textureSaved.Height);
+            return size;
+#endif
+        }
 
-                        textureSaved.SaveAsPng(fileStream, textureSaved.Width, textureSaved.Height);
+#if CWAISOLATEDSTORAGE_ISF
+        //public static bool FileExists(string filenameIsoStore)
+        //    => isf.FileExists(filenameIsoStore);
+#else
+        public static bool FileExists(string file)
+        {
+            file = Path.Combine(isf, file);
+            FileInfo fi = new FileInfo(file);
 
-                        fileStream.Close();
-                    }
-                }
+            return fi.Exists;
+        }
+#endif
+        public static bool RemoveFileFromIso(string file)
+        {
+#if CWAISOLATEDSTORAGE_ISF
+            //if (isf.FileExists(filenameIsoStore))
+            //{
+            //    isf.DeleteFile(filenameIsoStore);
+
+            //    return true;
+            //}
+            //else
+            //{
+            //    return false;
+            //}
+#else
+            if (FileExists(file))
+            {
+                file = Path.Combine(isf, file);
+                File.Delete(file);
 
                 return true;
             }
-            catch (Exception e)
+            else
             {
-                Debug.WriteLine(e.StackTrace.ToString());
                 return false;
             }
+#endif
         }
 
-        public static long FileSize(string filenameIsoStore)
+        public static Texture2D LoadTextureFromIso(GraphicsDevice gd, string file, Rectangle r)
         {
-            using (IsolatedStorageFile file = IsolatedStorageFile.GetUserStoreForApplication())
-            {
-#if (CWANETSTANDARD)            
-                return file.UsedSize;
+#if CWAISOLATEDSTORAGE_ISF
+            //if (!isf.FileExists(fileNameIsoStore))
+            //{
+            //    //throw new ArgumentException();
+            //    return null;
+            //}
+
+            //Texture2D tex = null;
+            ////Texture2D tex = new Texture2D(gd, (int)rec.Width, (int)rec.Height);
+
+            //using (IsolatedStorageFileStream fileStream = 
+            //    new IsolatedStorageFileStream(fileNameIsoStore, FileMode.Open, isf))
+            //{
+            //    tex = Texture2D.FromStream(gd, fileStream);
+            //}
+
+            //return tex;
 #else
-                Debug.WriteLine("TODO: Size not available");
-                return -1;
-#endif
-            }
-        }
 
-        public static bool FileExists(string filenameIsoStore)
-        {
-            using (IsolatedStorageFile file = IsolatedStorageFile.GetUserStoreForApplication())
+            if (!FileExists(file))
             {
-#if DEBUG
-                bool exists = file.FileExists(filenameIsoStore);
+                return null;
+            }
 
-                if (exists)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
+            file = Path.Combine(isf, file);
+
+            Texture2D tex = new Texture2D(gd, (int)r.Width, (int)r.Height);
+
+            using (FileStream stream = new FileStream(file, FileMode.Open))
+            {
+                tex = Texture2D.FromStream(gd, stream);
+            }
+
+            return tex;
+#endif
+        }
+    }
+
+    /// Helper class is needed because IsolatedStorageProperty is generic and 
+    /// cannot provide singleton  for static content
+    [Serializable]
+    public static class IsfProperties
+    {
+        [NonSerialized]
+        public static readonly object ThreadLocker = new object();
+
+#if CWAISOLATEDSTORAGE_ISF
+        //[NonSerialized]
+        //private static IsolatedStorageFile isf = //IsolatedStorageFile.GetUserStoreForApplication();
+        ////IsolatedStorageFile.GetStore(IsolatedStorageScope.User |
+        ////                             IsolatedStorageScope.Domain |
+        ////                             IsolatedStorageScope.Assembly, null, null);
+        //    IsolatedStorageFile.GetStore(IsolatedStorageScope.Application |
+        //                                 IsolatedStorageScope.User, null);
 #else
-                return file.FileExists(filenameIsoStore);
+        [NonSerialized]
+        private static readonly string fname = "App.bin";
 #endif
-            }
+        public static dict App;
+
+        static IsfProperties()
+        {
+            if (!LoadTry<dict>())
+                App = new dict();
         }
 
-        public static bool RemoveFileFromIso(string filenameIsoStore)
+        public static object Get(string key)
         {
-            using (IsolatedStorageFile file = IsolatedStorageFile.GetUserStoreForApplication())
+            if (App.ContainsKey(key))
             {
-                if (file.FileExists(filenameIsoStore))
-                {
-                    file.DeleteFile(filenameIsoStore);
-
-                    return true;
-                }
+                return App[key];
             }
-
-            return false;
-        }
-
-        //todo how to get the texture dimensions
-        public static Texture2D LoadTextureFromIso(GraphicsDevice gd, string fileNameIsoStore, Rectangle rec)
-        {
-            try
+            else
             {
-                Texture2D tex = new Texture2D(gd, (int)rec.Width, (int)rec.Height);
-                using (IsolatedStorageFile file = IsolatedStorageFile.GetUserStoreForApplication())
-                {
-                    if (file.FileExists(fileNameIsoStore))
-                    {
-                        using (IsolatedStorageFileStream fileStream = new IsolatedStorageFileStream(fileNameIsoStore, FileMode.Open, file))
-                        {
-#if (CWANETSTANDARD)
-                            tex = Texture2D.FromStream(gd, fileStream);
-#else
-                            tex = Texture2D.FromStream(gd, fileStream, (int)rec.Width, (int)rec.Height, false);
-#endif
-                        }
-
-                        return tex;
-                    }
-                    else
-                        return null;
-                }
-            }
-            catch (Exception e)
-            {
-#if DEBUG
-                string s = e.StackTrace;
-                Debug.WriteLine(s);
-#endif
                 return null;
             }
         }
-    }
-
-    /// <summary>
-    /// Helper class is needed because IsolatedStorageProperty is generic and 
-    /// can not provide singleton model for static content
-    /// </summary>
-    //internal 
-    public static class IsolatedStoragePropertyHelper
-    {
-        /// <summary>
-        /// We must use this object to lock saving settings
-        /// </summary>
-        public static readonly object ThreadLocker = new object();
-
-        // Store are Key/Valuepairs
-        public static readonly IsolatedStorageSettings Store = IsolatedStorageSettings.ApplicationSettings;
-    }
-
-    public class IsolatedStorageProperty<T>
-    {
-        readonly object _defaultValue;
-        readonly string _name;
-        readonly object _syncObject = new object();
-
-        public IsolatedStorageProperty(string Propertyname, T PropertydefaultValue)
+        public static bool LoadTry<T>(string key="")
         {
-            _name = Propertyname;
-            _defaultValue = PropertydefaultValue;
+            object obj = null;
+            bool exists = false;
+            bool isApp = false;
+
+            lock (ThreadLocker)
+            {
+                isApp = typeof(T).FullName == typeof(dict).FullName;
+                string file = isApp ? fname : key;
+
+                file = Path.Combine(IsfCommon.isf, file);
+
+                if (IsfCommon.FileExists(file))
+                {
+                    string str = "";
+
+                    using (FileStream fs = File.OpenRead(file))
+                    {
+                        byte[] b = new byte[1024];
+                        UTF8Encoding temp = new UTF8Encoding(true);
+
+                        int os = 0;
+                        while(true)
+                        {
+                            int bc = fs.Read(b, 0, b.Length);
+                            if (bc > 0)
+                            {
+                                //sb.Append(temp.GetString(b));
+                                str += (temp.GetString(b, os, bc));
+                                os += bc;
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                    }
+                    str = str.Trim();
+                    obj = JsonSerializer.Deserialize(
+                            str, typeof(T), CwaIsolatedStorage.ConvertCommon.jsOptions);
+
+                    exists = obj != null;
+
+                    if (exists)
+                    {
+                        if (isApp)
+                        {
+                            App = (dict)obj;
+                        }
+                        else
+                        {
+                            App[key] = (T)obj;
+                        }
+                    }
+                }
+            }
+
+            return exists;
+        }
+        private static bool IsApp<T>()
+            => typeof(T).FullName == typeof(dict).FullName;
+
+        public static void Save<T>(string key, object obj)
+        {
+            lock (ThreadLocker)
+            {
+                string file = fname;
+
+                if (IsApp<T>())
+                {
+                    App[key] = (T)obj;
+                    obj = App;
+                }
+                else
+                {
+                    file = key;
+                }
+
+                file = Path.Combine(IsfCommon.isf, file);
+
+                string json = JsonSerializer.Serialize(obj, ConvertCommon.jsOptions);
+
+                using (FileStream fs = File.Create(file))
+                {
+                    byte[] info = new UTF8Encoding(true).GetBytes(json);
+                    fs.Write(info, 0, info.Length);
+                }
+            }
+        }
+
+        public static bool Remove(string key)
+        {
+            if (!App.ContainsKey(key))
+            {
+                return false;
+            }
+
+            object obj = App[key];
+            Type t = obj.GetType();
+
+            lock (ThreadLocker)
+            {
+                if (t.FullName != typeof(dict).FullName)
+                {
+                    string file = Path.Combine(IsfCommon.isf, key);
+                    IsfCommon.RemoveFileFromIso(file);
+                }
+
+                return App.Remove(key);
+            }
+        }
+    }
+
+    public class IsfProperty<T>
+    {
+        private readonly string _key;
+        private readonly object _valueDef;
+
+        public IsfProperty(string key, T valueDef)
+        {
+            _key = key;
+            _valueDef = valueDef;
         }
 
         public bool Exists
         {
             get
             {
-                return IsolatedStoragePropertyHelper.Store.Contains(_name);
+                return IsfProperties.Get(_key) != null;
             }
         }
 
@@ -196,47 +344,35 @@ namespace CwaIsolatedStorage
         {
             get
             {
-                if (!Exists)//If property does not exist - initializing it using default value
-                {
-                    lock (_syncObject) //Initializing only once
+                if (!Exists)
+                    lock (IsfProperties.ThreadLocker)
                     {
                         if (!Exists)
                             SetDefault();
                     }
-                }
 
-                return (T)IsolatedStoragePropertyHelper.Store[_name];
+                return (T)IsfProperties.Get(_key);
             }
 
             set
             {
-                IsolatedStoragePropertyHelper.Store[_name] = value;
-                Save();
-            }
-        }
-
-        private static void Save()
-        {
-            lock (IsolatedStoragePropertyHelper.ThreadLocker)
-            {
-                IsolatedStoragePropertyHelper.Store.Save();
+                IsfProperties.Save<T>(_key, value);
             }
         }
 
         public void SetDefault()
         {
-            Value = (T)_defaultValue;
+            Value = (T)_valueDef;
         }
 
         public T GetDefault()
         {
-            return (T)_defaultValue;
+            return (T)_valueDef;
         }
 
         public bool Remove()
         {
-            return IsolatedStoragePropertyHelper.Store.Remove(_name);
+            return IsfProperties.Remove(_key);
         }
     }
-
 }
