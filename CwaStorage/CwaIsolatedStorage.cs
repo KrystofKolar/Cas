@@ -175,19 +175,11 @@ namespace CwaIsolatedStorage
     {
         [NonSerialized]
         public static readonly object ThreadLocker = new object();
-
-#if CWAISOLATEDSTORAGE_ISF
-        //[NonSerialized]
-        //private static IsolatedStorageFile isf = //IsolatedStorageFile.GetUserStoreForApplication();
-        ////IsolatedStorageFile.GetStore(IsolatedStorageScope.User |
-        ////                             IsolatedStorageScope.Domain |
-        ////                             IsolatedStorageScope.Assembly, null, null);
-        //    IsolatedStorageFile.GetStore(IsolatedStorageScope.Application |
-        //                                 IsolatedStorageScope.User, null);
-#else
         [NonSerialized]
         private static readonly string fname = "App.bin";
-#endif
+        [NonSerialized]
+        private static readonly string typNote = "Cwa.CwaNote"; // todo
+
         public static dict App;
 
         static IsfProperties()
@@ -196,26 +188,16 @@ namespace CwaIsolatedStorage
                 App = new dict();
         }
 
-        public static object Get(string key)
-        {
-            if (App.ContainsKey(key))
-            {
-                return App[key];
-            }
-            else
-            {
-                return null;
-            }
-        }
-        public static bool LoadTry<T>(string key="")
+        public static object Get(string key) =>
+            App.ContainsKey(key) ? App[key] : null;
+
+        public static bool LoadTry<T>(string key = "")
         {
             object obj = null;
-            bool exists = false;
-            bool isApp = false;
+            bool isApp = IsApp<T>();
 
             lock (ThreadLocker)
             {
-                isApp = typeof(T).FullName == typeof(dict).FullName;
                 string file = isApp ? fname : key;
 
                 file = Path.Combine(IsfCommon.isf, file);
@@ -229,46 +211,40 @@ namespace CwaIsolatedStorage
                         byte[] b = new byte[1024];
                         UTF8Encoding temp = new UTF8Encoding(true);
 
-                        int os = 0;
+                        int os = 0; // todo
                         while(true)
                         {
                             int bc = fs.Read(b, 0, b.Length);
-                            if (bc > 0)
-                            {
-                                //sb.Append(temp.GetString(b));
-                                str += (temp.GetString(b, os, bc));
-                                os += bc;
-                            }
-                            else
-                            {
+                            if (bc < 1)
                                 break;
-                            }
+
+                            str += (temp.GetString(b, os, bc));
+                            os += bc;
                         }
                     }
-                    str = str.Trim();
-                    obj = JsonSerializer.Deserialize(
-                            str, typeof(T), CwaIsolatedStorage.ConvertCommon.jsOptions);
 
-                    exists = obj != null;
+                    obj = JsonSerializer.Deserialize(str, typeof(T), ConvertCommon.jsOptionsSerialize);
 
-                    if (exists)
+                    if (obj != null)
                     {
                         if (isApp)
-                        {
                             App = (dict)obj;
-                        }
                         else
-                        {
                             App[key] = (T)obj;
-                        }
+
+                        return true;
                     }
                 }
             }
 
-            return exists;
+            return false;
         }
+
         private static bool IsApp<T>()
             => typeof(T).FullName == typeof(dict).FullName;
+
+        private static bool IsNote<T>()
+            => typeof(T).FullName == typNote;
 
         public static void Save<T>(string key, object obj)
         {
@@ -276,19 +252,17 @@ namespace CwaIsolatedStorage
             {
                 string file = fname;
 
-                if (IsApp<T>())
-                {
-                    App[key] = (T)obj;
-                    obj = App;
-                }
+                if (IsNote<T>())
+                    file = key;
                 else
                 {
-                    file = key;
+                    App[key] = (T)obj;
+
                 }
 
                 file = Path.Combine(IsfCommon.isf, file);
 
-                string json = JsonSerializer.Serialize(obj, ConvertCommon.jsOptions);
+                string json = JsonSerializer.Serialize<dict>(App, ConvertCommon.jsOptionsSerialize); //Serialize(App, ConvertCommon.jsOptions);
 
                 using (FileStream fs = File.Create(file))
                 {
@@ -301,16 +275,11 @@ namespace CwaIsolatedStorage
         public static bool Remove(string key)
         {
             if (!App.ContainsKey(key))
-            {
                 return false;
-            }
-
-            object obj = App[key];
-            Type t = obj.GetType();
 
             lock (ThreadLocker)
             {
-                if (t.FullName != typeof(dict).FullName)
+                if (App[key].GetType().FullName == typNote)
                 {
                     string file = Path.Combine(IsfCommon.isf, key);
                     IsfCommon.RemoveFileFromIso(file);
