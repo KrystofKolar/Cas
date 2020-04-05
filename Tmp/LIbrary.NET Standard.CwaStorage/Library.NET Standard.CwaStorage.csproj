@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Library.NET_Standard.CwaStorage</RootNamespace>
+    <UserSecretsId>9507e18b-7b13-430b-b86b-08ebc6cf9d51</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;CWANETSTANDARD CWAISOLATEDSTORAGE_ISFX</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;CWANETSTANDARD</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="SettingsManager.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="3.1.2" />
+    <PackageReference Include="MonoGame.Framework.DesktopGL.Core" Version="3.7.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Library.NET Standard.CasScrollingBackground.Types\Library.NET Standard.CasScrollingBackground.Types.csproj" />
+    <ProjectReference Include="..\Library.NET Standard.Cwa.System.IO\Library.NET Standard.Cwa.System.IO.csproj" />
+    <ProjectReference Include="..\Library.NET Standard.CwaNotes.Types\Library.NET Standard.CwaNotes.Types.csproj" />
+    <ProjectReference Include="..\Library.NET Standard.Location\Library.NET Standard.Location.csproj" />
+  </ItemGroup>
+
+</Project>
