@@ -34,7 +34,7 @@ namespace CasStorage
             Properties = new Dictionary<string, object>();
         }
 
-        [JsonPropertyName("Configuration")]
+        [JsonPropertyNameAttribute("Configuration")]
         public string Configuration { get; set; }
 
         [JsonPropertyName("UsePublicKey")]

@@ -31,7 +31,7 @@ namespace CwaIsolatedStorage
     {
         public static readonly object ThreadLocker = new object();
  
-        protected static readonly string fApp = "Cas.json";
+        public static string fApp;
 
         public abstract object Get(string key);
         public abstract void Save<T>(string key, object val);
@@ -53,7 +53,7 @@ namespace CwaIsolatedStorage
             lock (ThreadLocker)
             {
                 string file = Path.Combine(CwaSystemIO.IO.isf, fApp);
-
+                file = fApp;
                 CwaSystemIO.IO.FileWriteUTF8(file, str);
             }
         }

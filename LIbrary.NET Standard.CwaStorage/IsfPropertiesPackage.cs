@@ -12,8 +12,9 @@ namespace CasStorage
         protected static JsonSerializerOptions _optionsPackage;
         protected static JsonSerializerOptions _optionsNoteBase;
 
-        public IsfPropertiesPackage()
+        public IsfPropertiesPackage(string sApp = "YourAppname.json")
         {
+            IsfProperties.fApp = sApp;
             Init();
         }
 
@@ -41,7 +42,10 @@ namespace CasStorage
             if (CwaSystemIO.IO.FileExists(fApp))
                 pack = JsonSerializer.Deserialize<Package>(GetFileJson(fApp), _optionsPackage);
             else
+            {
                 pack = new Package();
+                SavePackageAsFile();
+            }
 
             // load notes
             string[] Files = Directory.GetFiles(CwaSystemIO.IO.isf);
@@ -110,7 +114,10 @@ namespace CasStorage
         }
 
         // save Package class, but without notes
-        protected virtual void SavePackageAsFile() =>
-            SaveFileJson(JsonSerializer.Serialize<Package>(pack, _optionsPackage));
+        protected virtual void SavePackageAsFile()
+        {
+            string s = JsonSerializer.Serialize<Package>(pack, _optionsPackage);
+            SaveFileJson(s);
+        }
     }
 }

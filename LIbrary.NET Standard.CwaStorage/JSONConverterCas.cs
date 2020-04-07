@@ -1,6 +1,7 @@
 ﻿using CwaNotesTypes;
 using System;
 using System.Globalization;
+using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
@@ -37,7 +38,7 @@ namespace CasStorage
         public override bool CanConvert(Type typeToConvert)
         {
             // todo
-            // typeof(Package).IsAssignableFrom(typeToConvert);
+            // typeof(Package).IsAssignableFrom(typeToConvert); // inherited types
             return true;
         }
 
@@ -114,8 +115,9 @@ namespace CasStorage
             pack.DateTimeCenter = JsonSerializer.Deserialize<DateTime>(ref reader, _options);
             #endregion
 
-            reader.Read(); // dictionary propertyname
-            if (reader.TokenType != JsonTokenType.PropertyName)
+             // dictionary propertyname
+            if (reader.Read()  &&
+                reader.TokenType != JsonTokenType.PropertyName)
             {
                 throw new JsonException();
             }
@@ -199,10 +201,31 @@ namespace CasStorage
         protected virtual bool IsCwaNoteBase(object obj) =>
             obj as CwaNoteBase != null;
 
+        // Projection
+        private string GetJSONPropertyName(string member)
+        {
+            MemberInfo[] mbInfos = typeof(Package).GetMembers();
+
+            foreach (MemberInfo element in mbInfos)
+            {
+                if (element.Name == member)
+                {
+                    Type tAttr = typeof(JsonPropertyNameAttribute);
+
+                    JsonPropertyNameAttribute attr = (JsonPropertyNameAttribute)
+                        Attribute.GetCustomAttribute(element, tAttr, false);
+
+                    return attr != null ? attr.Name : member;
+                }
+            }
+
+            return member;
+        }
+
         public override void Write(Utf8JsonWriter writer, Package package, JsonSerializerOptions options)
         {
             writer.WriteStartObject();
-
+                //todo GetJSONPropertyName("get_Configuration")
                 writer.WritePropertyName(Package.Keys[0]);
                 JsonSerializer.Serialize(writer, package.Configuration, _options);
 
@@ -232,7 +255,7 @@ namespace CasStorage
                         writer.WriteEndObject();
                     }
 
-                writer.WriteEndArray();
+                    writer.WriteEndArray();
 
             writer.WriteEndObject();
         }
