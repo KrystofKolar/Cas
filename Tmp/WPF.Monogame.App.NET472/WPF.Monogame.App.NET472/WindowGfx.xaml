@@ -16,7 +16,8 @@
         <local:HorizontalAxis VerticalAlignment="Center" HorizontalAlignment="Center" 
             Width="200" 
             Height="100"
-            Grid.Row="0" />
+            Grid.Row="0" 
+         />
         
         <Button Content="Button Dropshadow" Grid.Row="1" Margin="200,50">
             <Button.BitmapEffect>
