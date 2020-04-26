@@ -7,24 +7,23 @@ using System.Text;
 
 namespace CwaEffects
 {
+
     public class CwaEffectImplPixelate : CwaEffectImpl
     {
-        public override eEffect Effect { get { return eEffect.Pixelate; } }
+        public override eEffect Effect 
+            => eEffect.Pixelate;
 
         RenderTarget2D _rtSmall;
 
-        protected override void Dispose(bool dispose)
+        protected override void Dispose(bool manual)
         {
             if (_disposed)
                 return;
 
-            if (dispose)
+            if (manual)
             {
                 if (_rtSmall != null)
                     _rtSmall.Dispose();
-
-                if (Result != null)
-                    Result.Dispose();
             }
 
             _disposed = true;
@@ -32,8 +31,10 @@ namespace CwaEffects
 
         protected override void Init()
         {
-            _rtSmall = Helper_Get(Input.ptBoundsNext);
-            Result = Helper_Get(Input.ptBounds);
+            Input ta = (Input)Input;
+
+            _rtSmall = base.GetRenderTarget2D(ta.ptBoundsNext);
+            Result = base.GetRenderTarget2D(ta.ptBounds);
         }
 
         public override void Calc(Texture2D tex)

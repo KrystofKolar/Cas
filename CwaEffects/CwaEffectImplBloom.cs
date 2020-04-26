@@ -9,16 +9,17 @@ namespace CwaEffects
 {
     public class CwaEffectImplBloom : CwaEffectImpl
     {
-        public override eEffect Effect { get { return eEffect.Bloom; } }
+        public override eEffect Effect
+            => eEffect.Bloom;
 
         RenderTarget2D _Half;
         RenderTarget2D _Quarter;
         RenderTarget2D _Quarter2;
 
         // settings
-        static float _BloomThreshold = 0.25f;
-        static float _BloomIntensity = 2.9f;
-        static int _BlurPasses = 2;
+        static readonly float _BloomThreshold = 0.25f;
+        static readonly float _BloomIntensity = 2.9f;
+        static readonly int _BlurPasses = 2;
 
         // result = source - destination
         static BlendState BlendStateExtractBrightColors =
@@ -57,12 +58,12 @@ namespace CwaEffects
             AlphaDestinationBlend = Blend.InverseSourceColor,
         };
 
-        protected override void Dispose(bool dispose)
+        protected override void Dispose(bool manual)
         {
             if (_disposed)
                 return;
 
-            if (dispose)
+            if (manual)
             {
                 if (_Half != null)
                     _Half.Dispose();
@@ -72,28 +73,29 @@ namespace CwaEffects
 
                 if (_Quarter2 != null)
                     _Quarter2.Dispose();
-
-                if (Result != null)
-                    Result.Dispose();
             }
 
             _disposed = true;
+
+            base.Dispose(manual);
         }
 
         protected override void Init()
         {
             PresentationParameters pp = Input.gd.PresentationParameters;
 
-            int w = Input.ptBounds.X;
-            int h = Input.ptBounds.Y;
+            Input ta = (Input)Input;
 
-            Result = Helper_Get(new Point(w, h));
+            int w = ta.ptBounds.X;
+            int h = ta.ptBounds.Y;
 
-            _Half = new RenderTarget2D(Input.gd, w / 2, h / 2, false, pp.BackBufferFormat, DepthFormat.None);
+            Result = GetRenderTarget2D(new Point(w, h));
 
-            _Quarter = new RenderTarget2D(Input.gd, w / 4, h / 4, false, pp.BackBufferFormat, DepthFormat.None);
+            _Half = new RenderTarget2D(Input.gd, w/2, h/2, false, pp.BackBufferFormat, DepthFormat.None);
 
-            _Quarter2 = new RenderTarget2D(Input.gd, w / 4, h / 4, false, pp.BackBufferFormat, DepthFormat.None);
+            _Quarter = new RenderTarget2D(Input.gd, w/4, h/4, false, pp.BackBufferFormat, DepthFormat.None);
+
+            _Quarter2 = new RenderTarget2D(Input.gd, w/4, h/4, false, pp.BackBufferFormat, DepthFormat.None);
         }
 
         public override void Calc(Texture2D tex)
@@ -147,10 +149,6 @@ namespace CwaEffects
                 Input.sb.Draw(_Quarter, v, new Rectangle(-j, -j, w, h), tint);
 
                 Input.sb.End();
-
-                RenderTarget2D tmp = _Quarter2;
-                _Quarter2 = _Quarter;
-                _Quarter = tmp;
             }
 
             // Combine the original scene and bloom images.

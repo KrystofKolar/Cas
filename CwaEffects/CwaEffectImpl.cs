@@ -13,39 +13,47 @@ namespace CwaEffects
     {
         public abstract eEffect Effect { get; }
 
-        public CwaEffectInput Input;
+        public InputBase Input;
 
         protected bool _disposed = false;
 
-        public void Dispose()
+        public virtual void Dispose()
+            => Dispose(true);
+
+        protected virtual void Dispose(bool manual)
         {
-            Dispose(true);
+            if (_disposed)
+                return;
+
+            if (manual)
+            {
+                if (Result != null)
+                    Result.Dispose();
+            }
+
+            _disposed = true;
         }
 
-        protected abstract void Dispose(bool dispose);
+        public virtual void Prepare()
+            => Init();
 
-        public void Prepare()
-        {
-            Init();
-        }
+        virtual protected void Init() { }
 
-        abstract protected void Init();
-        abstract public void Calc(Texture2D tex);
+        virtual public void Calc(Texture2D tex) { }
 
         public RenderTarget2D Result { get; protected set; }
 
         // get a rendertarget with size in arg
-        protected RenderTarget2D Helper_Get(Point sz)
+        protected RenderTarget2D GetRenderTarget2D(Point sz)
         {
-            return new RenderTarget2D(Input.gd, sz.X, sz.Y, false,
+            return new RenderTarget2D(Input.gd,
+                                      sz.X,
+                                      sz.Y,
+                                      mipMap: false,
                                       Input.gd.PresentationParameters.BackBufferFormat,
                                       Input.gd.PresentationParameters.DepthStencilFormat,
                                       Input.gd.PresentationParameters.MultiSampleCount,
                                       RenderTargetUsage.DiscardContents);
         }
     }
-
-
-
-
 }

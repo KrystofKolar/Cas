@@ -4,15 +4,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 
 namespace CwaEffects
 {
     class CwaEffectImplBlur : CwaEffectImpl
     {
-        public override eEffect Effect { get { return eEffect.Blur; } }
-        // blur
-        RenderTarget2D _BlurTarget;
+        public override eEffect Effect
+            => eEffect.Blur;
 
+        RenderTarget2D _BlurTarget;
         RenderTarget2D[] _BlurTargets;
         RenderTarget2D[] _BlurResults;
 
@@ -21,32 +22,36 @@ namespace CwaEffects
         // denominator/nenner of blurtargets and other usage
         int[] _BlurDenominators = { 2, 4, 8, 16, 32 }; //todo
 
-        protected override void Dispose(bool dispose)
+        protected override void Dispose(bool manual)
         {
             if (_disposed)
                 return;
 
-            if (dispose)
+            if (manual)
             {
+                if (_BlurTarget != null)
+                    _BlurTarget.Dispose();
+
                 foreach (var v in _BlurTargets)
                     v.Dispose();
 
                 foreach (var v in _BlurResults)
                     v.Dispose();
-
-                if (Result != null)
-                    Result.Dispose();
             }
 
             _disposed = true;
+
+            base.Dispose(manual);
         }
 
         protected override void Init()
         {
-            _BlurTarget = new RenderTarget2D(Input.gd, Input.ptBounds.X / 32, Input.ptBounds.Y / 32, false,
+            Input ta = (Input)Input;
+
+            _BlurTarget = new RenderTarget2D(ta.gd, ta.ptBounds.X / 32, ta.ptBounds.Y / 32, false,
                                              Input.gd.PresentationParameters.BackBufferFormat, DepthFormat.None);
 
-            Result = new RenderTarget2D(Input.gd, Input.ptBounds.X, Input.ptBounds.Y, false,
+            Result = new RenderTarget2D(Input.gd, ta.ptBounds.X, ta.ptBounds.Y, false,
                                              Input.gd.PresentationParameters.BackBufferFormat,
                                              Input.gd.PresentationParameters.DepthStencilFormat,
                                              Input.gd.PresentationParameters.MultiSampleCount,
@@ -57,28 +62,27 @@ namespace CwaEffects
 
             for (int i = 0; i < _BlurDenominators.Length; ++i)
             {
-                _BlurTargets[i] = new RenderTarget2D(Input.gd, Input.ptBounds.X / _BlurDenominators[i], Input.ptBounds.Y / _BlurDenominators[i], false,
-                                            Input.gd.PresentationParameters.BackBufferFormat, DepthFormat.None);
+                _BlurTargets[i] = new RenderTarget2D(ta.gd, ta.ptBounds.X / _BlurDenominators[i], ta.ptBounds.Y / _BlurDenominators[i], false,
+                                            ta.gd.PresentationParameters.BackBufferFormat, DepthFormat.None);
 
-                _BlurResults[i] = new RenderTarget2D(Input.gd, Input.ptBounds.X, Input.ptBounds.Y, false,
-                                            Input.gd.PresentationParameters.BackBufferFormat,
-                                            Input.gd.PresentationParameters.DepthStencilFormat,
-                                            Input.gd.PresentationParameters.MultiSampleCount,
+                _BlurResults[i] = new RenderTarget2D(ta.gd, ta.ptBounds.X, ta.ptBounds.Y, false,
+                                            ta.gd.PresentationParameters.BackBufferFormat,
+                                            ta.gd.PresentationParameters.DepthStencilFormat,
+                                            ta.gd.PresentationParameters.MultiSampleCount,
                                             RenderTargetUsage.DiscardContents);
             }
         }
 
-        void CalcBlur(Texture2D tex, RenderTarget2D blurTarget, RenderTarget2D blurResult) //const
+        void CalcBlur(Texture2D tex, RenderTarget2D blurTarget, RenderTarget2D blurResult)
         {
             // small
             Input.gd.SetRenderTarget(blurTarget);
-
             Input.sb.Begin(0, BlendState.AlphaBlend);
             Input.sb.Draw(tex, new Rectangle(0, 0, blurTarget.Width, blurTarget.Height), Color.White);
             Input.sb.End();
             Input.gd.SetRenderTarget(null);
 
-            // resize to large, simulate blur
+            // resize to large, gets blurry
             Input.gd.SetRenderTarget(blurResult);
             Input.sb.Begin(0, BlendState.AlphaBlend);
             Input.sb.Draw(blurTarget, new Rectangle(0, 0, blurResult.Width, blurResult.Height), Color.White);
@@ -86,7 +90,7 @@ namespace CwaEffects
             Input.gd.SetRenderTarget(null);
         }
 
-        void CalcBlurs(Texture2D tex) //todo
+        void CalcBlurs(Texture2D tex)
         {
             for (int i = 0; i < _BlurDenominators.Length; ++i)
             {
@@ -95,8 +99,6 @@ namespace CwaEffects
         }
 
         public override void Calc(Texture2D tex)
-        {
-            CalcBlur(tex, _BlurTarget, Result);
-        }
+            => CalcBlur(tex, _BlurTarget, Result);
     }
 }

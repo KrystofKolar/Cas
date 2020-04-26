@@ -8,93 +8,71 @@ namespace CwaEffects
 {
     public enum eEffect
     {
-        Org,
         Blur,
         Bloom,
         Pixelate,
-
-        Last,
     }
 
-    public class CwaEffectBridge : IDisposable
+    public class EffectBridge : IDisposable
     {
+        public bool Enabled = false;
+
+        public Input Input;
+
         protected bool _disposed = false;
 
-        public void Dispose()
-        {
-            Dispose(true);
-        }
+        public void Dispose() 
+            => Dispose(true);
 
-        virtual protected void Dispose(bool disposing)
+        virtual protected void Dispose(bool manual)
         {
             if (_disposed)
                 return;
 
-            if (disposing)
-            {
-                _EffectBase.Dispose();
-            }
+            if (manual)
+                _EffectImpl.Dispose();
 
             _disposed = true;
         }
 
-        public CwaEffectInput Input;
-
-        protected CwaEffectImpl _EffectBase;
+        protected CwaEffectImpl _EffectImpl;
 
         public eEffect Request
         {
-            get
-            {
-                    return _EffectBase.Effect;
-            }
+            get => _EffectImpl.Effect;
 
             set
             {
-                if (value == Request)
-                    return;
+                Request = value;
 
-                switch (value)
+                switch (Request)
                 {
                     case eEffect.Pixelate:
-                        _EffectBase = new CwaEffectImplPixelate();
+                        _EffectImpl = new CwaEffectImplPixelate();
                         break;
 
                     case eEffect.Bloom:
-                        _EffectBase = new CwaEffectImplBloom();
+                        _EffectImpl = new CwaEffectImplBloom();
                         break;
 
                     case eEffect.Blur:
-                        _EffectBase = new CwaEffectImplBlur();
+                        _EffectImpl = new CwaEffectImplBlur();
                         break;
 
-                    case eEffect.Org:
                     default:
-                        _EffectBase = new CwaEffectImplOriginal();
-                        break;
+                        throw new NotImplementedException();
                 }
-
-                _EffectBase.Input = Input;
             }
         }
+        public virtual void Prepare() 
+            => _EffectImpl.Prepare();
 
-        public CwaEffectBridge()
-        {
-            Input = new CwaEffectInput();
-            _EffectBase = new CwaEffectImplOriginal();
-        }
-
-        public virtual void Prepare()
-        {
-            _EffectBase.Prepare();
-        }
 
         public virtual void Calc(Texture2D tex)
-        {
-            _EffectBase.Calc(tex);
-        }
+            => _EffectImpl.Calc(tex);
 
-        public Texture2D Result { get { return _EffectBase.Result; } }
+        public Texture2D Result
+            => _EffectImpl.Result;
     }
 
 }
