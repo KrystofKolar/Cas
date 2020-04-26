@@ -1,4 +1,5 @@
-﻿using CwaNotesTypes;
+﻿using Cwa;
+using CwaNotesTypes;
 using System;
 using System.Globalization;
 using System.Reflection;
@@ -29,6 +30,10 @@ namespace CasStorage
             _options.Converters.Add(new CwaIsolatedStorage.ConverterBoolean());
             _options.Converters.Add(new CwaIsolatedStorage.ConverterDateTime());
             _options.Converters.Add(new CwaIsolatedStorage.ConverterEnum<CasBase.Scenario>());
+            _options.Converters.Add(new CwaIsolatedStorage.ConverterEnum<AudioManager.VolumeLevels>());
+            _options.Converters.Add(new CwaIsolatedStorage.ConverterEnum<CasBase.casId>());
+            _options.Converters.Add(new CwaIsolatedStorage.ConverterEnum<CasBase.casTextureVariant>());
+
             _options.Converters.Add(new ConverterGeoCoordinate());
             _options.Converters.Add(new ConverterBackgroundItem());
 

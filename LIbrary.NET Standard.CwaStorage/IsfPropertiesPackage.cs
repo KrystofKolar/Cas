@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 using CwaIsolatedStorage;
@@ -15,11 +16,7 @@ namespace CasStorage
         public IsfPropertiesPackage(string sApp = "YourAppname.json")
         {
             IsfProperties.fApp = sApp;
-            Init();
-        }
 
-        public virtual void Init()
-        {
             _optionsPackage = new JsonSerializerOptions();
             _optionsPackage.Converters.Add(new ConverterPackage());
             _optionsPackage.WriteIndented = true;
@@ -39,16 +36,27 @@ namespace CasStorage
         protected virtual void Load()
         {
             // load none notes
-            if (CwaSystemIO.IO.FileExists(fApp))
-                pack = JsonSerializer.Deserialize<Package>(GetFileJson(fApp), _optionsPackage);
-            else
+            if (CwaSystemIO.IO.FileExistsRelative(fApp))
+            {
+                try
+                {
+                    pack = JsonSerializer.Deserialize<Package>(GetFileJson(fApp), _optionsPackage);
+                }
+                catch(Exception e) //todo
+                {
+                    Debug.WriteLine(e.Message);
+                    pack = null;
+                }
+            }
+
+            if (pack == null)
             {
                 pack = new Package();
                 SavePackageAsFile();
             }
 
             // load notes
-            string[] Files = Directory.GetFiles(CwaSystemIO.IO.isf);
+            string[] Files = Directory.GetFiles(CwaSystemIO.IO.Relative);
 
             string name = string.Empty;
             string s = string.Empty;
@@ -63,7 +71,7 @@ namespace CasStorage
 
                 try
                 {
-                    s = CwaSystemIO.IO.FileReadUTF8(name);
+                    s = CwaSystemIO.IO.FileReadUTF8(item);
 
                     note = JsonSerializer.Deserialize<CwaNoteBase>(s, _optionsNoteBase);
 
@@ -71,7 +79,7 @@ namespace CasStorage
                 }
                 catch(Exception e)
                 {
-                    CwaSystemIO.IO.FileWriteUTF8(name + ".ERR", e.Message);
+                    CwaSystemIO.IO.FileWriteUTF8(item + ".ERR", e.Message);
                 }
             }
         }
@@ -93,7 +101,7 @@ namespace CasStorage
                 pack.Properties.Remove(key);
 
                 if (IsCwaNoteBase(obj))
-                    CwaSystemIO.IO.FileRemove(key);
+                    CwaSystemIO.IO.FileRemoveRelative(key);
                 else
                     SavePackageAsFile();
             }
@@ -106,8 +114,11 @@ namespace CasStorage
                 pack.Properties[key] = (T)obj;
 
                 if (IsCwaNoteBase(obj))
-                    CwaSystemIO.IO.FileWriteUTF8(key, // CwaNote as CwaNoteBase
+                {
+                    string file = Path.Combine(CwaSystemIO.IO.Relative, key);
+                    CwaSystemIO.IO.FileWriteUTF8(file, // CwaNote as CwaNoteBase
                         JsonSerializer.Serialize<CwaNoteBase>((CwaNoteBase)obj, _optionsNoteBase));
+                }
                 else
                     SavePackageAsFile();
             }

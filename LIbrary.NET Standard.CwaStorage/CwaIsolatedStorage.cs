@@ -42,7 +42,7 @@ namespace CwaIsolatedStorage
         {
             lock (ThreadLocker)
             {
-                file = Path.Combine(CwaSystemIO.IO.isf, file);
+                file = Path.Combine(CwaSystemIO.IO.Relative, file);
 
                 return CwaSystemIO.IO.FileReadUTF8(file);
             }
@@ -52,8 +52,7 @@ namespace CwaIsolatedStorage
         {
             lock (ThreadLocker)
             {
-                string file = Path.Combine(CwaSystemIO.IO.isf, fApp);
-                file = fApp;
+                string file = Path.Combine(CwaSystemIO.IO.Relative, fApp);
                 CwaSystemIO.IO.FileWriteUTF8(file, str);
             }
         }
