@@ -1,119 +1,115 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using CwaEffects;
+using System;
 
-namespace CwaEffectsTest.MonoGame.GL
+namespace CwaEffectsTest
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        SpriteFont font;
-        Vector2 measure;
-        Vector2 c;
-        CwaEffects.CwaEffectBridge _EffectBridge;
+        Point halfScreen;
+
+        EffectBridge _EffectBridge;
         Texture2D tex;
+
         KeyboardState prevState = Keyboard.GetState();
 
         public Game1()
         {
+            int scale = 2;
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = 800;
-            graphics.PreferredBackBufferHeight = 480;
+            graphics.PreferredBackBufferWidth = 800 * scale;
+            graphics.PreferredBackBufferHeight = 400 * scale;
             graphics.ApplyChanges();
 
-            Window.AllowUserResizing = true;
-            Window.ClientSizeChanged += Window_ClientSizeChanged;
+            halfScreen = new Point(graphics.PreferredBackBufferWidth / 2,
+                                   graphics.PreferredBackBufferHeight);
 
-            c = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
+            IsMouseVisible = true;
 
             Content.RootDirectory = "Content";
         }
 
-        void Window_ClientSizeChanged(object sender, System.EventArgs e)
-        {
-            c = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
-        }
-
-        void GraphicsDevice_DeviceReset(object sender, System.EventArgs e)
-        {
-            c = new Vector2(Window.ClientBounds.Width, Window.ClientBounds.Height);
-        }
-  
         protected override void Initialize()
-        {
-            graphics.GraphicsDevice.DeviceReset += GraphicsDevice_DeviceReset;
-
-            base.Initialize();
-        }
+            => base.Initialize();
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            font = Content.Load<SpriteFont>("font"); ;
             tex = Content.Load <Texture2D>("test");
 
-            _EffectBridge = new CwaEffects.CwaEffectBridge();
-
-            EffectSettings();
-            _EffectBridge.Prepare();
-            _EffectBridge.Calc(tex);
-
-            measure = font.MeasureString(_EffectBridge.Request.ToString());
+            CreateEffect(CwaEffects.Effect.Blur);
         }
 
-        void EffectSettings()
+        protected void CreateEffect(CwaEffects.Effect effect)
         {
-            _EffectBridge.Request++;
+            if (_EffectBridge == null)
+                _EffectBridge = new EffectBridge();
 
-            if (_EffectBridge.Request == CwaEffects.eEffect.Last)
-                _EffectBridge.Request = CwaEffects.eEffect.Org;
-
-            _EffectBridge.Input.gd = graphics.GraphicsDevice;
-            _EffectBridge.Input.sb = spriteBatch;
-
-            _EffectBridge.Input.ptBounds = new Point(graphics.GraphicsDevice.PresentationParameters.BackBufferWidth,
-                                                     graphics.GraphicsDevice.PresentationParameters.BackBufferHeight);
+            _EffectBridge.Request = effect;
 
             switch (_EffectBridge.Request)
             {
-                case CwaEffects.eEffect.Bloom:
-                case CwaEffects.eEffect.Blur:
-                    _EffectBridge.Input.ptBoundsNext = _EffectBridge.Input.ptBounds;
+                case CwaEffects.Effect.Blur:
+                    {
+                        _EffectBridge.Input = new InputEffectBlur
+                        {
+                            graphicsDevice = GraphicsDevice,
+                            spriteBatch = spriteBatch,
+                            ResultSize = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth,
+                                                    GraphicsDevice.PresentationParameters.BackBufferHeight),
+                            Denominator = 32,
+                        };
+                    }
                     break;
 
-                case CwaEffects.eEffect.Pixelate:
-                    _EffectBridge.Input.ptBoundsNext = new Point(112, 70);
+                case CwaEffects.Effect.Bloom:
+                    {
+                        _EffectBridge.Input = new InputEffectBloom
+                        {
+                            graphicsDevice = GraphicsDevice,
+                            spriteBatch = spriteBatch,
+                            ResultSize = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth,
+                                                   GraphicsDevice.PresentationParameters.BackBufferHeight)
+                        };
+                    }
+                    break;
+
+                case CwaEffects.Effect.Pixelate:
+                    _EffectBridge.Input = new InputEffectPixelate
+                    {
+                        graphicsDevice = GraphicsDevice,
+                        spriteBatch = spriteBatch,
+                        ResultSize = new Point(GraphicsDevice.PresentationParameters.BackBufferWidth,
+                                                GraphicsDevice.PresentationParameters.BackBufferHeight),
+                        ScaleDownSize = new Point(80, 48)
+                    };
                     break;
 
                 default:
-                    break;
+                    throw new NotSupportedException();
             }
 
-        }
-
-        protected override void UnloadContent()
-        {
+            _EffectBridge.Prepare();
+            _EffectBridge.Calc(tex);
         }
 
         protected override void Update(GameTime gameTime)
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
                 Exit();
-            }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !prevState.IsKeyDown(Keys.Enter))
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter) && 
+                !prevState.IsKeyDown(Keys.Enter))
             {
-                EffectSettings();
-                _EffectBridge.Prepare();
-                _EffectBridge.Calc(tex);
-
-                measure = font.MeasureString(_EffectBridge.Request.ToString());
+                if (_EffectBridge.Request == CwaEffects.Effect.Pixelate)
+                    CreateEffect(CwaEffects.Effect.Blur); // rewind
+                else
+                    CreateEffect(++_EffectBridge.Request);
             }
 
             prevState = Keyboard.GetState();
@@ -123,20 +119,19 @@ namespace CwaEffectsTest.MonoGame.GL
 
         protected override void Draw(GameTime gameTime)
         {
-            int cOver2 = (int)c.X / 2;
-
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
+
             spriteBatch.Draw(tex,
-                             new Rectangle(0, 0, cOver2, (int)c.Y),
+                             destinationRectangle: new Rectangle(Point.Zero, halfScreen),
+                             sourceRectangle: null,
                              Color.White);
+
             spriteBatch.Draw(_EffectBridge.Result,
-                             new Rectangle(cOver2, 0, cOver2, (int)c.Y),
+                             destinationRectangle: new Rectangle(new Point(halfScreen.X, 0), halfScreen),
+                             sourceRectangle: null,
                              Color.White);
-            spriteBatch.DrawString(font,
-                             _EffectBridge.Request.ToString() + " <ENTER> next",
-                             new Vector2(cOver2, 10),
-                             Color.Black);
+
             spriteBatch.End();
 
             base.Draw(gameTime);

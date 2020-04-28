@@ -108,9 +108,9 @@
     <MonoGameContentReference Include="Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CwaEffects\CwaEffects.csproj">
-      <Project>{d214f9cf-03cd-4c54-b211-2f9bf73c77dc}</Project>
-      <Name>CwaEffects</Name>
+    <ProjectReference Include="..\Library.NET Standard.CwaEffects\Library.NET Standard.CwaEffects.csproj">
+      <Project>{e3208601-7649-482e-9699-189aabd96492}</Project>
+      <Name>Library.NET Standard.CwaEffects</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
